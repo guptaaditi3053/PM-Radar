@@ -1,24 +1,37 @@
 {
- "updated": "2026-10-03T14:52:47+00:00",
+ "updated": "2026-10-03T15:08:23+00:00",
  "demo": false,
  "settings": {
-  "days": 3,
+  "run_id": "2026-10-03T15:08:13+00:00",
+  "days": 7,
   "regions": [
    "Global"
   ],
   "topics": [
    "AI PM"
   ],
+  "query": "",
   "searches_run": 3,
-  "new_posts": 5
+  "funnel": {
+   "results": 39,
+   "posts_found": 19,
+   "in_window": 19,
+   "relevant": 10
+  },
+  "ai_summaries": false,
+  "new_posts": 6
  },
  "regions": [
   "Global"
  ],
  "tags": [
-  "AI PM"
+  "AI PM",
+  "Company-specific",
+  "PM skills"
  ],
- "companies": [],
+ "companies": [
+  "Meesho"
+ ],
  "posts": [
   {
    "url": "https://www.linkedin.com/pulse/ai-accelerates-sprint-humans-still-make-call-agile-project-azim-rgxzf",
@@ -64,7 +77,8 @@
    "companies": [],
    "relevant": true,
    "summary": "Voice-based AI interviews with PM-specific questions, follow-ups and feedback.",
-   "summary_source": "snippet"
+   "summary_source": "snippet",
+   "last_run": "2026-10-03T15:08:13+00:00"
   },
   {
    "url": "https://www.linkedin.com/posts/shobhitchugh_if-i-was-a-product-manager-with-a-non-ai-activity-7511100267325648896-0KaZ",
@@ -87,7 +101,8 @@
    "companies": [],
    "relevant": true,
    "summary": "Here's what I'd focus on instead: 1. Get clear on what AI product roles actually require. Most AI PMs aren't coding neural networks. They're building real",
-   "summary_source": "snippet"
+   "summary_source": "snippet",
+   "last_run": "2026-10-03T15:08:13+00:00"
   },
   {
    "url": "https://www.linkedin.com/posts/ai-monks-ai-product-management-coach-545469196_aimonks-productmanagers-productmanagement-activity-7511054966464335872-rRX7",
@@ -110,7 +125,8 @@
    "companies": [],
    "relevant": true,
    "summary": "The AI PM course by AI Monks If you want to get into AI product management, this is the one place that has it all. Here is what you get inside: Product",
-   "summary_source": "snippet"
+   "summary_source": "snippet",
+   "last_run": "2026-10-03T15:08:13+00:00"
   },
   {
    "url": "https://www.linkedin.com/posts/alexrechevskiy_have-a-product-management-question-you-wish-activity-7511210911307857921-IuI-",
@@ -133,6 +149,153 @@
    "companies": [],
    "relevant": true,
    "summary": "Will AI replace product managers?! What should I actually learn about AI? ♀️ How do I deal with a difficult manager? Should I get this cool new",
+   "summary_source": "snippet",
+   "last_run": "2026-10-03T15:08:13+00:00"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/sumitkumarsingh_aiproductmanagement-productmanagement-activity-7510650924189581312-rrUs",
+   "type": "post",
+   "author": "Sumitkumarsingh",
+   "title": "Sumit Kumar Singh's Post",
+   "snippet": "JUST 4 DAYS TO GO! | AI PRODUCT MANAGEMENT COHORT Want to prepare for your next AI Product Management interview? Start by learning what interviewers are",
+   "date": "2026-09-29",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [
+    "AI PM"
+   ],
+   "companies": [],
+   "relevant": true,
+   "last_run": "2026-10-03T15:08:13+00:00",
+   "summary": "JUST 4 DAYS TO GO! | AI PRODUCT MANAGEMENT COHORT Want to prepare for your next AI Product Management interview? Start by learning what interviewers are",
+   "summary_source": "snippet"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/rsims_ive-coached-200-ai-pm-candidates-the-interview-activity-7510682867706826752-ZLwh",
+   "type": "post",
+   "author": "Rsims",
+   "title": "Raymond D Sims' Post",
+   "snippet": "... AI, not whether you understand it. 2️⃣ Vibe coding is a real round now. 3️⃣ AI product sense replaced traditional product sense. 4️⃣ Behavioral questions",
+   "date": "2026-09-29",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [
+    "AI PM"
+   ],
+   "companies": [],
+   "relevant": true,
+   "last_run": "2026-10-03T15:08:13+00:00",
+   "summary": "... AI, not whether you understand it. 2️⃣ Vibe coding is a real round now. 3️⃣ AI product sense replaced traditional product sense. 4️⃣ Behavioral questions",
+   "summary_source": "snippet"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/malay-krishna_these-are-the-exact-pm-interview-questions-activity-7510211578860912640-ir5B",
+   "type": "post",
+   "author": "Malay Krishna",
+   "title": "Malay Krishna's Post",
+   "snippet": "These are the exact PM interview questions asked. Product design, improvement, strategy, estimation, metrics... Product design, improvement, strategy, estimation",
+   "date": "2026-09-28",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [
+    "PM skills"
+   ],
+   "companies": [],
+   "relevant": true,
+   "last_run": "2026-10-03T15:08:13+00:00",
+   "summary": "These are the exact PM interview questions asked. Product design, improvement, strategy, estimation, metrics... Product design, improvement, strategy, estimation",
+   "summary_source": "snippet"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/karan-apm_product-manager-i-interview-at-meesho-round-activity-7510184665673052160--lOa",
+   "type": "post",
+   "author": "Karan Apm",
+   "title": "Karan Mittal's Post - Product Manager I Interview at Meesho",
+   "snippet": "Karan Mittal This is an incredible resource for PM interview prep. Seeing how a case discussion evolves dynamically from a broad retention question down to",
+   "date": "2026-09-28",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [
+    "Company-specific"
+   ],
+   "companies": [
+    "Meesho"
+   ],
+   "relevant": true,
+   "last_run": "2026-10-03T15:08:13+00:00",
+   "summary": "Karan Mittal This is an incredible resource for PM interview prep. Seeing how a case discussion evolves dynamically from a broad retention question down to",
+   "summary_source": "snippet"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/racheldowling_a-few-weeks-ago-i-helped-a-small-group-of-activity-7510051775316410369-uYS3",
+   "type": "post",
+   "author": "Racheldowling",
+   "title": "Rachel Dowling's Post",
+   "snippet": "Answering AI questions too narrowly at the feature level. gain valuable practice in AI and PM interview questions with hiring manager feedback, and improve",
+   "date": "2026-09-27",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [
+    "AI PM"
+   ],
+   "companies": [],
+   "relevant": true,
+   "last_run": "2026-10-03T15:08:13+00:00",
+   "summary": "Answering AI questions too narrowly at the feature level. gain valuable practice in AI and PM interview questions with hiring manager feedback, and improve",
+   "summary_source": "snippet"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/mira-ling-42806479_ambitology-ai-powered-career-platform-for-activity-7509689044746854400-kPzs",
+   "type": "post",
+   "author": "Mira Ling",
+   "title": "Prepare for Interview Loops with Mock Interviews",
+   "snippet": "Here's the Technical AI PM Interview Playbook for your next interview prep. Free ... Inside, you will find: → 500+ AI interview questions → RAG interview",
+   "date": "2026-09-26",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [
+    "AI PM"
+   ],
+   "companies": [],
+   "relevant": true,
+   "last_run": "2026-10-03T15:08:13+00:00",
+   "summary": "Here's the Technical AI PM Interview Playbook for your next interview prep. Free ... Inside, you will find: → 500+ AI interview questions → RAG interview",
    "summary_source": "snippet"
   }
  ],
@@ -154,7 +317,8 @@
    ],
    "tags": [],
    "companies": [],
-   "relevant": false
+   "relevant": false,
+   "last_run": "2026-10-03T15:08:13+00:00"
   },
   {
    "url": "https://www.linkedin.com/pulse/career-transition-ai-pm-you-dont-need-start-over-neelanja-makhija-tljlf",
@@ -173,7 +337,8 @@
    ],
    "tags": [],
    "companies": [],
-   "relevant": false
+   "relevant": false,
+   "last_run": "2026-10-03T15:08:13+00:00"
   },
   {
    "url": "https://www.linkedin.com/pulse/beyond-status-report-why-pmos-fail-age-ai-engineering-we9fc",
@@ -193,6 +358,146 @@
    "tags": [],
    "companies": [],
    "relevant": false
+  },
+  {
+   "url": "https://www.linkedin.com/posts/kunal-dudhraj-biswakarma_google-pm-interview-questions-activity-7509917297164193792-MluO",
+   "type": "post",
+   "author": "Kunal Dudhraj ...",
+   "title": "AI PM Framework for Gemini Interview",
+   "snippet": "1. Clarify the failure · 2. Map the AI response journey · 3. Define the North Star · 4. Build the metric hierarchy · 5. Diagnose high-confidence errors · 6. Match",
+   "date": "2026-09-27",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [],
+   "companies": [],
+   "relevant": false,
+   "last_run": "2026-10-03T15:08:13+00:00"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/drnancyli_productmanagement-aiproductmanagement-activity-7510701333751091200-4nWd",
+   "type": "post",
+   "author": "Drnancyli",
+   "title": "Dr. Nancy Li",
+   "snippet": "In this video I'm going to digest the top 10 most common AI management interview questions and tell you the best strategies how to answer them so that you're",
+   "date": "2026-09-29",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [],
+   "companies": [],
+   "relevant": false,
+   "last_run": "2026-10-03T15:08:13+00:00"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/aryan-sharan-386871210_if-i-had-a-product-manager-interview-tomorrow-activity-7510564466586030080-Bzq8",
+   "type": "post",
+   "author": "Aryan Sharan",
+   "title": "Aryan Sharan posted this",
+   "snippet": "1. I'd deeply understand the company and product I'd use the product like a real user. What problem does it solve? Who is it built for? Where does it clearly",
+   "date": "2026-09-29",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [],
+   "companies": [],
+   "relevant": false,
+   "last_run": "2026-10-03T15:08:13+00:00"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/nsr1012_30-videos-to-learn-ai-product-management-activity-7510326435589349376-dkgg",
+   "type": "post",
+   "author": "Nsr1012",
+   "title": "Shania Rasheed Nalagath's Post",
+   "snippet": "Start with the career fundamentals. Then move into strategy, building AI products, measuring growth, and practical PM skills. AI PM Career Foundations → AI PM",
+   "date": "2026-09-28",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [],
+   "companies": [],
+   "relevant": false,
+   "last_run": "2026-10-03T15:08:13+00:00"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/paulachristensen1_should-you-use-ai-to-write-your-resume-of-activity-7510670206009065473-Boxa",
+   "type": "post",
+   "author": "Paulachristensen1",
+   "title": "Should you use AI to write your resume? Of course. AI is ...",
+   "snippet": "I really think AI is a great tool to help with the brainstorming part of resume/interview story writing. You can even prompt it to ask you questions to help you",
+   "date": "2026-09-29",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [],
+   "companies": [],
+   "relevant": false,
+   "last_run": "2026-10-03T15:08:13+00:00"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/sumitkumarsingh_rag-vs-okf-a-product-managers-guide-to-activity-7510595981969903617-WSgB",
+   "type": "post",
+   "author": "Sumitkumarsingh",
+   "title": "Sumit Kumar Singh's Post - RAG vs OKF",
+   "snippet": "The Big Debate in the PM world today, IS RAG DEAD? IS OKF the latest thing? What is RAG vs OKF? The one-sentence difference RAG helps an AI find things.",
+   "date": "2026-09-29",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [],
+   "companies": [],
+   "relevant": false,
+   "last_run": "2026-10-03T15:08:13+00:00"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/parvinder-singh-godara_10-create-an-ai-product-for-senior-citizens-activity-7510180359293206528-gqrj",
+   "type": "post",
+   "author": "Parvinder Singh Godara",
+   "title": "10-Create an AI Product for Senior Citizens Living Alone",
+   "snippet": "With Nimo, students can explain their thinking to an AI persona that asks follow-up questions, invites clarification, and introduces another perspective. Each",
+   "date": "2026-09-28",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [],
+   "companies": [],
+   "relevant": false,
+   "last_run": "2026-10-03T15:08:13+00:00"
   }
  ]
 }
