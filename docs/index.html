@@ -4,111 +4,181 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PM Radar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f6f5f1; --card: #ffffff; --ink: #1d1d1b; --muted: #6b6a64; --line: #e3e1d8;
-    --accent: #1f5f4a; --accent-ink: #ffffff; --chip: #eef3f0; --chip-ink: #1f5f4a;
-    --warn-bg: #fff4d6; --warn-ink: #6b4e00; --err-bg: #fde8e6; --err-ink: #8a1f14;
-    --ok-bg: #e4f3ec; --ok-ink: #14573f;
+    --page: #F2F5FF; --surface: #FFFFFF; --ink: #161B3A; --muted: #566086; --line: #DCE2F7;
+    --brand: #3D5AFE; --brand-ink: #FFFFFF; --brand-strong: #2F47D6;
+    --hero: linear-gradient(115deg, #FFFFFF 0%, #E6EDFF 40%, #B7C8FF 75%, #8FABFF 100%); --hero-ink: #16217A; --hero-soft: #25305E;
+    --soft: #E7ECFF;
+    --warn-bg: #FFF3CD; --warn-ink: #5C4400; --err-bg: #FFE4E1; --err-ink: #8A1C12;
+    --ok-bg: #DDF6EA; --ok-ink: #0E5A3B;
+    --shadow: 0 1px 2px rgba(22,27,58,.06), 0 10px 24px -14px rgba(61,90,254,.35);
+    --display: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --body: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #151614; --card: #1f201d; --ink: #ecebe5; --muted: #a09f96; --line: #33342f;
-      --accent: #6fcfa6; --accent-ink: #0d1a14; --chip: #26302b; --chip-ink: #8fdcbc;
-      --warn-bg: #3a3014; --warn-ink: #f2d98a; --err-bg: #3d1d19; --err-ink: #f5b3ab;
-      --ok-bg: #173126; --ok-ink: #9be3c3;
+      --page: #0E1230; --surface: #171C44; --ink: #EEF0FF; --muted: #A5ACD6; --line: #2B3269;
+      --brand: #8CA0FF; --brand-ink: #0E1230; --brand-strong: #AEBBFF;
+      --hero: linear-gradient(115deg, #0E1230 0%, #1B2487 55%, #3D5AFE 100%); --hero-ink: #FFFFFF; --hero-soft: rgba(255,255,255,.9);
+      --soft: #1F2658;
+      --warn-bg: #3B3212; --warn-ink: #F4DC8E; --err-bg: #43201C; --err-ink: #F7B7AE;
+      --ok-bg: #153828; --ok-ink: #9DE5C4;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 24px -14px rgba(0,0,0,.6);
     }
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink);
-         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; }
-  header h1 { margin: 0; font-size: 26px; letter-spacing: -0.01em; }
-  header p { margin: 4px 0 0; color: var(--muted); }
-  .banner { margin: 16px 0 0; padding: 10px 14px; border-radius: 10px;
-            background: var(--warn-bg); color: var(--warn-ink); }
-  .panel { margin: 16px 0 8px; padding: 14px; background: var(--card);
-           border: 1px solid var(--line); border-radius: 14px; }
-  .lastrun { font-size: 13.5px; color: var(--muted); }
-  .lastrun strong { color: var(--ink); }
-  .lastrun .funnel { margin-top: 4px; }
-  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
-  .field { display: flex; flex-direction: column; gap: 4px; min-width: 130px; flex: 1 1 130px; }
-  .field.grow { flex: 3 1 220px; }
-  label { font-size: 12px; color: var(--muted); }
-  select, input[type=search], input[type=text], input[type=password] { width: 100%; padding: 8px 10px; font: inherit;
-    color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-  .chip { cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--ink);
-          padding: 4px 11px; border-radius: 999px; font: inherit; font-size: 13px; }
-  .chip[aria-pressed=true] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-  .meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-          margin: 14px 2px 10px; color: var(--muted); font-size: 13px; }
-  .list { display: grid; gap: 12px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
-  .card h2 { margin: 0 0 4px; font-size: 16px; line-height: 1.35; }
-  .card h2 a { color: var(--ink); text-decoration: none; }
-  .card h2 a:hover { text-decoration: underline; }
-  .byline { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
-  .summary { margin: 0 0 12px; }
-  .foot { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: space-between; }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag { background: var(--chip); color: var(--chip-ink); font-size: 12px; padding: 2px 9px; border-radius: 999px; }
-  .tag.co { background: transparent; border: 1px solid var(--line); color: var(--muted); }
-  .open, .btn { background: var(--accent); color: var(--accent-ink); text-decoration: none; font: inherit; font-size: 13px;
-          padding: 6px 12px; border-radius: 8px; white-space: nowrap; border: 0; cursor: pointer; }
-  .btn.big { font-size: 14px; padding: 9px 18px; }
-  .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); }
-  .btn[disabled] { opacity: .55; cursor: not-allowed; }
-  .open:hover, .btn:hover { opacity: .9; }
-  .empty { text-align: center; padding: 48px 16px; color: var(--muted); background: var(--card);
-           border: 1px dashed var(--line); border-radius: 14px; }
-  .reset { background: none; border: none; color: var(--accent); cursor: pointer; font: inherit; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--page); color: var(--ink);
+         font: 15px/1.55 var(--body); }
+  :focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
 
-  details.runbox > summary { cursor: pointer; font-weight: 600; list-style: none; display: flex;
-                             align-items: center; gap: 8px; }
+  /* ---------- header ---------- */
+  .hero { background: var(--hero); background-color: #E6EDFF; color: var(--hero-ink); border-bottom: 1px solid var(--line); }
+  .hero-inner { max-width: 1040px; margin: 0 auto; padding: 40px 20px 44px; }
+  .hero h1 { margin: 0; font: 700 clamp(34px, 6vw, 52px)/1.02 var(--display);
+             letter-spacing: -0.025em; }
+  .hero p { margin: 10px 0 0; max-width: 30em; font-size: 17px; color: var(--hero-soft); }
+
+  /* ---------- page ---------- */
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 22px 20px 72px; }
+  .banner { margin: 0 0 14px; padding: 11px 14px; border-radius: 12px;
+            background: var(--warn-bg); color: var(--warn-ink); }
+  .panel { margin: 0 0 14px; padding: 16px; background: var(--surface);
+           border: 1px solid var(--line); border-radius: 16px; }
+  .paneltitle { margin: 0 0 12px; font: 600 16px/1.3 var(--display); }
+  .paneltitle small { font: 400 13.5px var(--body); color: var(--muted); margin-left: 6px; }
+
+  .lastrun { background: var(--soft); border-color: transparent; font-size: 14px; color: var(--muted); }
+  .lastrun strong { color: var(--ink); font-weight: 600; }
+  .lastrun p { margin: 0; }
+  .lastrun p + p { margin-top: 4px; }
+
+  /* fetch panel */
+  details.runbox { padding: 0; }
+  details.runbox > summary { cursor: pointer; list-style: none; padding: 14px 16px; border-radius: 16px;
+      display: flex; align-items: center; gap: 10px; font: 600 16px/1.3 var(--display); }
   details.runbox > summary::-webkit-details-marker { display: none; }
-  details.runbox > summary::before { content: "▸"; transition: transform .15s; }
-  details.runbox[open] > summary::before { transform: rotate(90deg); }
-  .runbody { margin-top: 12px; display: grid; gap: 12px; }
-  .hint { font-size: 12.5px; color: var(--muted); margin: 0; }
-  .status { padding: 9px 12px; border-radius: 10px; font-size: 13.5px; background: var(--chip); color: var(--chip-ink); }
+  details.runbox > summary .plus { display: inline-grid; place-items: center; width: 26px; height: 26px;
+      border-radius: 50%; background: var(--brand); color: var(--brand-ink); font: 600 18px/1 var(--body);
+      transition: transform .18s; }
+  details.runbox[open] > summary .plus { transform: rotate(45deg); }
+  details.runbox > summary small { font: 400 13.5px var(--body); color: var(--muted); }
+  .runbody { display: grid; gap: 12px; padding: 0 16px 16px; }
+
+  .row { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); align-items: end; }
+  .row .wide { grid-column: span 2; }
+  @media (max-width: 560px) { .row .wide { grid-column: auto; } }
+  .filters { grid-template-columns: minmax(200px, 2fr) repeat(4, minmax(120px, 1fr)); }
+  @media (max-width: 900px) {
+    .filters { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    .filters .kw { grid-column: 1 / -1; }
+  }
+  .field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  label { font-size: 13px; font-weight: 500; color: var(--muted); }
+  select, input[type=search], input[type=text], input[type=password] {
+    width: 100%; min-height: 42px; padding: 8px 11px; font: inherit; color: var(--ink);
+    background: var(--page); border: 1px solid var(--line); border-radius: 10px; }
+  select:hover, input:hover { border-color: var(--brand); }
+  input::placeholder { color: var(--muted); opacity: .8; }
+
+  .btn, .open { display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      min-height: 40px; padding: 0 16px; font: 600 14px var(--body); text-decoration: none; cursor: pointer;
+      border-radius: 10px; border: 1px solid transparent; white-space: nowrap; }
+  .btn { background: var(--brand); color: var(--brand-ink); }
+  .btn:hover { background: var(--brand-strong); }
+  .btn.big { min-height: 42px; padding: 0 22px; }
+  .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn.ghost:hover { background: var(--soft); }
+  .btn[disabled] { opacity: .6; cursor: progress; }
+  .open { background: transparent; color: var(--brand-strong); border-color: var(--line); min-height: 36px; font-size: 13.5px; }
+  .open:hover { background: var(--soft); border-color: var(--brand); }
+  @media (prefers-color-scheme: dark) { .open { color: var(--brand); } }
+
+  .hint { font-size: 13px; color: var(--muted); margin: 0; }
+  .status { padding: 10px 13px; border-radius: 10px; font-size: 14px; background: var(--soft); color: var(--ink); }
   .status.warn { background: var(--warn-bg); color: var(--warn-ink); }
   .status.err { background: var(--err-bg); color: var(--err-ink); }
   .status.ok { background: var(--ok-bg); color: var(--ok-ink); }
-  .status a { color: inherit; }
-  .tokenbox { border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; }
-  .tokenbox summary { cursor: pointer; font-size: 13.5px; }
-  .tokenbox ol { margin: 8px 0 8px 18px; padding: 0; font-size: 13px; color: var(--muted); }
-  .tokenbox li { margin: 2px 0; }
+  .status a { color: inherit; font-weight: 600; }
+  .tokenbox { border: 1px dashed var(--line); border-radius: 12px; padding: 10px 14px; }
+  .tokenbox summary { cursor: pointer; font-size: 14px; font-weight: 500; }
+  .tokenbox ol { margin: 10px 0 12px 20px; padding: 0; font-size: 13.5px; color: var(--muted); }
+  .tokenbox li { margin: 3px 0; }
   .inline { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .inline input { flex: 1 1 220px; }
+  .inline input { flex: 1 1 220px; width: auto; }
+
+  /* topic chips: tinted by topic colour; pressed = solid ink */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .chip, .tag { --c: #64748B; display: inline-flex; align-items: center; gap: 7px; border-radius: 999px;
+      font: 500 13px/1 var(--body); color: var(--ink);
+      background: color-mix(in srgb, var(--c) 15%, var(--surface)); border: 1px solid transparent; }
+  .chip { cursor: pointer; padding: 8px 13px; border-color: color-mix(in srgb, var(--c) 35%, transparent); }
+  .chip::before, .tag::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
+  .chip:hover { background: color-mix(in srgb, var(--c) 26%, var(--surface)); }
+  .chip[aria-pressed=true] { background: var(--ink); color: var(--page); border-color: var(--ink); }
+  .tag { padding: 5px 10px; font-size: 12.5px; }
+  .tag.co { background: transparent; border-color: var(--line); color: var(--muted); }
+  .tag.co::before { display: none; }
+
+  .meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+          margin: 20px 2px 10px; color: var(--muted); font-size: 14px; }
+  #count { font: 600 17px var(--display); color: var(--ink); }
+
+  /* post cards: left edge shows the main topic */
+  .list { display: grid; gap: 12px; }
+  .card { --c: #64748B; position: relative; padding: 16px 18px 16px 22px; background: var(--surface);
+          border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+  .card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 6px; background: var(--c); }
+  .card h2 { margin: 0 0 6px; font: 600 18px/1.3 var(--display); letter-spacing: -0.01em; }
+  .card h2 a { color: var(--ink); text-decoration: none; }
+  .card h2 a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .byline { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-bottom: 8px; color: var(--muted); font-size: 13.5px; }
+  .byline .who { color: var(--ink); font-weight: 600; }
+  .summary { margin: 0 0 14px; max-width: 70ch; }
+  .foot { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .empty { padding: 44px 20px; text-align: center; color: var(--muted); background: var(--surface);
+           border: 1px dashed var(--line); border-radius: 16px; }
+  .empty strong { display: block; margin-bottom: 4px; color: var(--ink); font: 600 18px var(--display); }
+  .empty .btn { margin-top: 14px; }
+
+  @media (max-width: 640px) {
+    .hero-inner { padding: 30px 16px 34px; }
+    .wrap { padding: 18px 14px 64px; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
+<header class="hero">
+  <div class="hero-inner">
     <h1>PM Radar</h1>
-    <p>LinkedIn posts about product-management interviews and skills.</p>
-  </header>
+    <p>Fresh LinkedIn posts on product management interviews and skills, with a short summary and a link for each.</p>
+  </div>
+</header>
 
+<div class="wrap">
   <div id="banner"></div>
 
   <details class="panel runbox" id="runbox">
-    <summary>Run a new search</summary>
+    <summary><span class="plus" aria-hidden="true">+</span> Fetch new posts <small>Starts a new LinkedIn search</small></summary>
     <div class="runbody">
       <form id="runform" class="row">
-        <div class="field"><label for="r_days">Time period</label>
+        <div class="field"><label for="r_days">Look back</label>
           <select id="r_days">
             <option value="7" selected>Last 7 days</option>
             <option value="14">Last 14 days</option>
             <option value="30">Last 30 days</option>
             <option value="90">Last 90 days</option>
           </select></div>
-        <div class="field"><label for="r_region">Region</label>
-          <input id="r_region" type="text" list="regionlist" placeholder="All regions in config" autocomplete="off">
+        <div class="field"><label for="r_region">Search in region</label>
+          <input id="r_region" type="text" list="regionlist" placeholder="All regions" autocomplete="off">
           <datalist id="regionlist"></datalist></div>
-        <div class="field"><label for="r_topic">Topic</label>
+        <div class="field"><label for="r_topic">Topic to search</label>
           <select id="r_topic">
             <option value="">All topics</option>
             <option>Interview prep</option>
@@ -116,20 +186,20 @@
             <option>AI PM</option>
             <option>Company-specific</option>
           </select></div>
-        <div class="field grow"><label for="r_query">Or one custom search (overrides topic)</label>
-          <input id="r_query" type="text" placeholder="e.g. Stripe product manager interview" autocomplete="off"></div>
-        <div class="field" style="flex:0 0 auto"><button class="btn big" id="runbtn" type="submit">Run search</button></div>
+        <div class="field wide"><label for="r_query">Or one custom search (replaces the topic)</label>
+          <input id="r_query" type="text" placeholder="For example: Stripe product manager interview" autocomplete="off"></div>
+        <div class="field"><button class="btn big" id="runbtn" type="submit">Fetch new posts</button></div>
       </form>
-      <p class="hint">A search takes about 1–3 minutes. Each full run uses ~22 of your free monthly searches; a custom search uses 1–2.</p>
+      <p class="hint">A search takes 1 to 3 minutes. A full run uses about 22 of your 1,000 free monthly searches. A custom search uses 1 or 2.</p>
 
       <div id="tokenbox" class="tokenbox">
         <details id="tokendetails">
           <summary id="tokensummary">One-time setup: connect this button to your GitHub</summary>
           <ol>
-            <li>On GitHub, click your profile picture → <b>Settings</b> → <b>Developer settings</b> (bottom of the left menu) → <b>Personal access tokens</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b>.</li>
-            <li>Name it <b>pm-radar-button</b>. Expiration: <b>90 days</b>.</li>
-            <li><b>Repository access</b> → <b>Only select repositories</b> → choose <b>PM-Radar</b>.</li>
-            <li><b>Permissions</b> → <b>Repository permissions</b> → set <b>Actions</b> to <b>Read and write</b>. Leave everything else alone.</li>
+            <li>On GitHub, click your profile picture, then <b>Settings</b>, then <b>Developer settings</b> (bottom of the left menu), then <b>Personal access tokens</b>, then <b>Fine-grained tokens</b>, then <b>Generate new token</b>.</li>
+            <li>Name it <b>pm-radar-button</b>. Set the expiration to <b>90 days</b>.</li>
+            <li>Under <b>Repository access</b>, choose <b>Only select repositories</b> and pick <b>PM-Radar</b>.</li>
+            <li>Under <b>Permissions</b>, then <b>Repository permissions</b>, set <b>Actions</b> to <b>Read and write</b>. Leave everything else alone.</li>
             <li>Click <b>Generate token</b>, copy it, and paste it below. It is stored only in this browser, never in your repository. Don't share it.</li>
           </ol>
           <div class="inline">
@@ -146,15 +216,11 @@
   <section class="panel lastrun" id="lastrun" hidden></section>
 
   <section class="panel" aria-label="Filters">
-    <div class="row">
-      <div class="field grow"><label for="q">Search</label>
-        <input id="q" type="search" placeholder="Keyword, author, company..."></div>
-      <div class="field"><label for="scope">Show</label>
-        <select id="scope">
-          <option value="all" selected>All stored posts</option>
-          <option value="latest">Latest search only</option>
-        </select></div>
-      <div class="field"><label for="period">Time period</label>
+    <div class="paneltitle">Filter posts <small>Narrows the posts below. Doesn't start a new search.</small></div>
+    <div class="row filters">
+      <div class="field kw"><label for="q">Filter by keyword</label>
+        <input id="q" type="search" placeholder="Keyword, author or company"></div>
+      <div class="field"><label for="period">Posted within</label>
         <select id="period">
           <option value="7">Last 7 days</option>
           <option value="14">Last 14 days</option>
@@ -162,16 +228,15 @@
           <option value="90">Last 90 days</option>
           <option value="0">Everything stored</option>
         </select></div>
+      <div class="field"><label for="scope">Show</label>
+        <select id="scope">
+          <option value="all" selected>All stored posts</option>
+          <option value="latest">Latest search only</option>
+        </select></div>
       <div class="field"><label for="region">Region</label>
         <select id="region"><option value="">All regions</option></select></div>
       <div class="field"><label for="company">Company</label>
         <select id="company"><option value="">All companies</option></select></div>
-      <div class="field"><label for="type">Type</label>
-        <select id="type">
-          <option value="">Posts &amp; articles</option>
-          <option value="post">Posts only</option>
-          <option value="article">Articles only</option>
-        </select></div>
     </div>
     <div class="chips" id="chips" role="group" aria-label="Topic filters"></div>
   </section>
@@ -193,6 +258,12 @@
   var OWNER = "", REPO = "";
   var busy = false;
   var $ = function (id) { return document.getElementById(id); };
+
+  var TAG_COLORS = {
+    "Interview prep": "#FF7A45", "AI PM": "#8B5CF6", "PM skills": "#14B8A6",
+    "Company-specific": "#EC4899", "Career": "#0EA5E9", "Frameworks": "#F59E0B", "Case study": "#84CC16"
+  };
+  function tagColor(t) { return TAG_COLORS[t] || "#64748B"; }
 
   (function inferRepo() {
     var host = location.hostname, seg = location.pathname.split("/").filter(Boolean);
@@ -217,7 +288,6 @@
     n.setHours(0, 0, 0, 0);
     return Math.round((n - d) / 86400000);
   }
-
   /* ---------- token storage (browser only) ---------- */
   function getToken() { try { return localStorage.getItem("pmradar_token") || ""; } catch (e) { return ""; } }
   function setToken(v) {
@@ -260,6 +330,7 @@
       valid[t] = true;
       var b = document.createElement("button");
       b.type = "button"; b.className = "chip"; b.textContent = t;
+      b.style.setProperty("--c", tagColor(t));
       b.setAttribute("aria-pressed", String(!!activeTags[t]));
       b.onclick = function () {
         activeTags[t] = !activeTags[t];
@@ -272,7 +343,7 @@
 
     $("banner").innerHTML = DATA.demo
       ? '<div class="banner"><strong>Demo data.</strong> These are sample cards so you can see the layout. ' +
-        'Links are placeholders. Use <b>Run a new search</b> above (or the GitHub workflow) to fetch real posts.</div>'
+        'Links are placeholders. Use <b>Fetch new posts</b> below, or the GitHub workflow, to get real posts.</div>'
       : "";
     $("updated").textContent = DATA.updated
       ? "Updated " + new Date(DATA.updated).toLocaleString(undefined,
@@ -285,38 +356,35 @@
   function renderLastRun() {
     var el = $("lastrun"), s = DATA.settings || {};
     if (DATA.demo || !s.run_id) { el.hidden = true; return; }
-    var what = s.query ? "Custom search: “" + s.query + "”"
+    var what = s.query ? "Custom search “" + s.query + "”"
                        : "Topics: " + ((s.topics || []).join(", ") || "all");
-    var line = "<strong>Latest search</strong> · " + esc(what) + " · last " + esc(s.days) + " days · " +
-               esc((s.regions || []).join(", ") || "all regions") + " · " + esc(s.searches_run) + " searches used";
+    var html = "<p><strong>Latest search.</strong> " + esc(what) + ", last " + esc(s.days) + " days, " +
+               esc((s.regions || []).join(", ") || "all regions") + ". " + esc(s.searches_run) + " searches used.</p>";
     var f = s.funnel;
-    var extra = "";
     if (f) {
-      extra = '<div class="funnel">The search returned ' + esc(f.results) + " results → " + esc(f.posts_found) +
-        " were LinkedIn posts or articles → " + esc(f.in_window) + " fell inside the time window → " +
-        esc(f.relevant) + " are about product management.</div>";
+      html += "<p>The search returned " + esc(f.results) + " results. " + esc(f.posts_found) +
+        " were LinkedIn posts or articles, " + esc(f.in_window) + " fell inside the time window, and " +
+        esc(f.relevant) + " are about product management.</p>";
     }
     if (s.ai_summaries === false && (s.new_posts || 0) > 0) {
-      extra += '<div class="funnel">Summaries on this run come from the search snippet (Gemini was not used).</div>';
+      html += "<p>Summaries on this run come from the search snippet. Gemini wasn't used.</p>";
     }
-    el.innerHTML = line + extra;
+    el.innerHTML = html;
     el.hidden = false;
   }
 
-  function render() {
+  function filtered() {
     var q = $("q").value.trim().toLowerCase();
     var period = parseInt($("period").value, 10);
-    var region = $("region").value, company = $("company").value, type = $("type").value;
+    var region = $("region").value, company = $("company").value;
     var scope = $("scope").value;
     var runId = (DATA.settings || {}).run_id;
     var tags = Object.keys(activeTags).filter(function (t) { return activeTags[t]; });
-
-    var out = (DATA.posts || []).filter(function (p) {
+    return (DATA.posts || []).filter(function (p) {
       if (scope === "latest" && runId && p.last_run !== runId) return false;
       if (period && p.date && daysAgo(p.date) > period) return false;
       if (region && (p.regions || []).indexOf(region) < 0) return false;
       if (company && (p.companies || []).indexOf(company) < 0) return false;
-      if (type && p.type !== type) return false;
       if (tags.length && !tags.every(function (t) { return (p.tags || []).indexOf(t) >= 0; })) return false;
       if (q) {
         var hay = [p.title, p.summary, p.author, (p.companies || []).join(" "),
@@ -325,47 +393,64 @@
       }
       return true;
     });
+  }
+
+  function clearFilters() {
+    $("q").value = ""; $("region").value = ""; $("company").value = "";
+    $("period").value = "30"; $("scope").value = "all"; activeTags = {};
+    Array.prototype.forEach.call(document.querySelectorAll(".chip"), function (c) {
+      c.setAttribute("aria-pressed", "false");
+    });
+    render();
+  }
+
+  function render() {
+    var out = filtered();
+    var scope = $("scope").value;
 
     $("count").textContent = out.length + (out.length === 1 ? " post" : " posts") +
       (scope === "latest" ? " from the latest search" : "");
     var list = $("list");
     if (!out.length) {
-      list.innerHTML = '<div class="empty">Nothing matches these filters.<br>' +
-        '<button class="reset" id="reset">Clear filters</button></div>';
-      $("reset").onclick = function () {
-        $("q").value = ""; $("region").value = ""; $("company").value = ""; $("type").value = "";
-        $("period").value = "30"; $("scope").value = "all"; activeTags = {};
-        Array.prototype.forEach.call(document.querySelectorAll(".chip"), function (c) {
-          c.setAttribute("aria-pressed", "false");
-        });
-        render();
-      };
+      list.innerHTML = '<div class="empty"><strong>No posts match these filters</strong>' +
+        'Loosen a filter, or fetch new posts to look further.<br>' +
+        '<button class="btn" id="reset" type="button">Clear filters</button></div>';
+      $("reset").onclick = clearFilters;
       return;
     }
     list.innerHTML = out.map(function (p) {
       var url = safeUrl(p.url);
       var when = p.date_source === "first_seen" ? "Found " + fmtDate(p.date) : fmtDate(p.date);
-      var by = [p.author, when, (p.regions || []).join(", ")].filter(Boolean).map(esc).join(" · ");
-      var tagHtml = (p.tags || []).map(function (t) { return '<span class="tag">' + esc(t) + "</span>"; }).join("") +
-        (p.companies || []).map(function (c) { return '<span class="tag co">' + esc(c) + "</span>"; }).join("");
-      return '<article class="card">' +
+      var by = (p.author ? '<span class="who">' + esc(p.author) + "</span>" : "") +
+               (when ? "<span>" + esc(when) + "</span>" : "") +
+               ((p.regions || []).length ? "<span>" + esc((p.regions || []).join(", ")) + "</span>" : "");
+      var tagHtml = (p.tags || []).map(function (t) {
+        return '<span class="tag" style="--c:' + tagColor(t) + '">' + esc(t) + "</span>";
+      }).join("") + (p.companies || []).map(function (c) {
+        return '<span class="tag co">' + esc(c) + "</span>";
+      }).join("");
+      return '<article class="card" style="--c:' + tagColor((p.tags || [])[0]) + '">' +
         '<h2><a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + esc(p.title || p.url) + "</a></h2>" +
         '<div class="byline">' + by + "</div>" +
         '<p class="summary">' + esc(p.summary || "") + "</p>" +
         '<div class="foot"><div class="tags">' + tagHtml + "</div>" +
-        '<a class="open" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">Open on LinkedIn ↗</a></div>' +
+        '<a class="open" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">Open on LinkedIn</a></div>' +
         "</article>";
     }).join("");
   }
 
-  /* ---------- run a search from the page ---------- */
+  /* ---------- fetch new posts from the page ---------- */
   function setStatus(html, kind) {
     var el = $("runstatus");
     el.className = "status" + (kind ? " " + kind : "");
     el.innerHTML = html;
     el.hidden = false;
   }
-  function setBusy(b) { busy = b; $("runbtn").disabled = b; $("runbtn").textContent = b ? "Running…" : "Run search"; }
+  function setBusy(b) {
+    busy = b;
+    $("runbtn").disabled = b;
+    $("runbtn").textContent = b ? "Fetching…" : "Fetch new posts";
+  }
 
   function gh(path, opts) {
     opts = opts || {};
@@ -393,12 +478,12 @@
       if (d && d.updated && d.updated !== previous) {
         DATA = d;
         $("scope").value = "latest";
+        setBusy(false);
         applyData();
         var rid = d.settings && d.settings.run_id;
         var n = (d.posts || []).filter(function (p) { return p.last_run === rid; }).length;
-        setStatus("Done. The page now shows the latest search (" + esc(n) + " relevant posts). " +
-                  "Switch <b>Show</b> to “All stored posts” to see older ones too.", "ok");
-        setBusy(false);
+        setStatus("Done. The page now shows the latest search (" + esc(n) + (n === 1 ? " post" : " posts") + "). " +
+                  "Change <b>Show</b> to “All stored posts” to see older ones too.", "ok");
         return;
       }
       if (tries >= 18) {
@@ -422,7 +507,7 @@
         var run = runs[0];
         if (!run) {
           if (tries >= 12) {
-            setStatus("The search was requested, but I can’t see it yet. Check the Actions tab on GitHub.", "warn");
+            setStatus("The search was requested, but it hasn't appeared yet. Check the Actions tab on GitHub.", "warn");
             setBusy(false);
             return;
           }
@@ -430,13 +515,13 @@
           return;
         }
         if (run.status !== "completed") {
-          setStatus("Searching… (" + esc(run.status.replace("_", " ")) + "). This usually takes 1–3 minutes. " +
+          setStatus("Searching (" + esc(run.status.replace("_", " ")) + "). This usually takes 1 to 3 minutes. " +
                     '<a href="' + esc(run.html_url) + '" target="_blank" rel="noopener noreferrer">Watch on GitHub</a>');
           later(function () { pollRun(startedAt, previous, tries + 1); }, 10000);
           return;
         }
         if (run.conclusion !== "success") {
-          setStatus("The search did not finish successfully (" + esc(run.conclusion) + "). " +
+          setStatus("The search didn't finish (" + esc(run.conclusion) + "). " +
                     '<a href="' + esc(run.html_url) + '" target="_blank" rel="noopener noreferrer">See what went wrong</a>', "err");
           setBusy(false);
           return;
@@ -445,7 +530,7 @@
         waitForData(previous, 0);
       })
       .catch(function (e) {
-        setStatus("Couldn’t check progress: " + esc(e.message) + ". Your search may still be running; check the Actions tab on GitHub.", "warn");
+        setStatus("Couldn't check progress: " + esc(e.message) + ". Your search may still be running. Check the Actions tab on GitHub.", "warn");
         setBusy(false);
       });
   }
@@ -454,12 +539,12 @@
     if (busy) return;
     if (!OWNER || !REPO) {
       setStatus("Open the live site (https://YOUR-NAME.github.io/PM-Radar/) to use this button. " +
-                "It can’t reach GitHub from a downloaded copy.", "warn");
+                "It can't reach GitHub from a downloaded copy.", "warn");
       return;
     }
     if (!getToken()) {
       $("tokendetails").open = true;
-      setStatus("Add your GitHub token first (one-time setup below), then press Run search again.", "warn");
+      setStatus("Add your GitHub token first (one-time setup below), then press Fetch new posts again.", "warn");
       return;
     }
     var inputs = {
@@ -475,28 +560,28 @@
       method: "POST", body: JSON.stringify({ ref: "main", inputs: inputs })
     }).then(function (r) {
       if (r.status === 204) {
-        setStatus("Search started. This usually takes 1–3 minutes…");
+        setStatus("Search started. This usually takes 1 to 3 minutes.");
         later(function () { pollRun(startedAt, previous, 0); }, 6000);
         return;
       }
       return r.json().catch(function () { return {}; }).then(function (j) {
         var msg;
-        if (r.status === 401) { msg = "GitHub didn’t accept the token. It may be wrong or expired. Use “Forget token” and paste a new one."; }
-        else if (r.status === 403 || r.status === 404) { msg = "The token can’t start workflows on this repository. Check it has access to PM-Radar with <b>Actions: Read and write</b>."; }
+        if (r.status === 401) { msg = "GitHub didn't accept the token. It may be wrong or expired. Choose “Forget token” and paste a new one."; }
+        else if (r.status === 403 || r.status === 404) { msg = "The token can't start workflows on this repository. Check that it has access to PM-Radar with <b>Actions: Read and write</b>."; }
         else if (r.status === 422) { msg = "GitHub rejected the request: " + esc((j && j.message) || "invalid input") + "."; }
         else { msg = "GitHub returned an error (" + r.status + ")."; }
         setStatus(msg, "err");
         setBusy(false);
       });
     }).catch(function () {
-      setStatus("Couldn’t reach GitHub. Check your internet connection and try again.", "err");
+      setStatus("Couldn't reach GitHub. Check your internet connection and try again.", "err");
       setBusy(false);
     });
   }
 
   /* ---------- wire up ---------- */
-  ["q", "period", "region", "company", "type", "scope"].forEach(function (id) {
-    $(id).addEventListener(id === "q" ? "input" : "change", render);
+  ["q", "period", "region", "company", "scope"].forEach(function (id) {
+    $(id).addEventListener(id === "q" ? "input" : "change", function () { render(); });
   });
   $("runform").addEventListener("submit", function (e) { e.preventDefault(); startRun(); });
   $("tokensave").addEventListener("click", function () {
@@ -505,7 +590,7 @@
     if (setToken(v)) {
       refreshTokenUi();
       $("tokendetails").open = false;
-      setStatus("Token saved in this browser. You can run a search now.", "ok");
+      setStatus("Token saved in this browser. You can fetch new posts now.", "ok");
     } else {
       setStatus("This browser blocked saving the token (private window?). Try a normal window.", "err");
     }
