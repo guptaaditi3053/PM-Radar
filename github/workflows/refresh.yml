@@ -1,0 +1,72 @@
+name: Refresh PM Radar
+
+on:
+  # MANUAL ONLY: this runs when you press "Run workflow" in the Actions tab.
+  # A small form lets you set the time period, region, topic or a custom search.
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Time period in days (e.g. 7, 14, 30). Leave blank for the config.json default."
+        required: false
+        default: ""
+      regions:
+        description: "Region(s), comma separated (e.g. India or India,Global or United States). Blank = all in config.json."
+        required: false
+        default: ""
+      topics:
+        description: "Topic tag(s) to fetch, comma separated (e.g. AI PM). Blank = all topics."
+        required: false
+        default: ""
+      query:
+        description: "ONE custom search instead (e.g. Stripe product manager interview). Blank = use topics."
+        required: false
+        default: ""
+
+  # TO TURN ON AUTOMATIC RUNS LATER:
+  # 1. In the two lines below that start with "  #", delete the "# " (the hash and the space after it).
+  #    Keep the spaces in front of them.
+  # 2. Click "Commit changes".
+  # "30 2 * * *" means every day at 08:00 India time. For Mondays only use "30 2 * * 1".
+  #
+  # schedule:
+  #   - cron: "30 2 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pm-radar
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch and summarise posts
+        env:
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          RADAR_DAYS: ${{ github.event.inputs.days }}
+          RADAR_REGIONS: ${{ github.event.inputs.regions }}
+          RADAR_TOPICS: ${{ github.event.inputs.topics }}
+          RADAR_QUERY: ${{ github.event.inputs.query }}
+        run: python radar.py
+
+      - name: Save updated data
+        run: |
+          git config user.name "pm-radar-bot"
+          git config user.email "pm-radar-bot@users.noreply.github.com"
+          git add docs/posts.json docs/posts.js
+          if git diff --cached --quiet; then
+            echo "No changes to save."
+          else
+            git commit -m "Update PM Radar data"
+            git push
+          fi
