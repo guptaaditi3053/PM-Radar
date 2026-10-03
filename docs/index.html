@@ -8,13 +8,15 @@
   :root {
     --bg: #f6f5f1; --card: #ffffff; --ink: #1d1d1b; --muted: #6b6a64; --line: #e3e1d8;
     --accent: #1f5f4a; --accent-ink: #ffffff; --chip: #eef3f0; --chip-ink: #1f5f4a;
-    --warn-bg: #fff4d6; --warn-ink: #6b4e00;
+    --warn-bg: #fff4d6; --warn-ink: #6b4e00; --err-bg: #fde8e6; --err-ink: #8a1f14;
+    --ok-bg: #e4f3ec; --ok-ink: #14573f;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #151614; --card: #1f201d; --ink: #ecebe5; --muted: #a09f96; --line: #33342f;
       --accent: #6fcfa6; --accent-ink: #0d1a14; --chip: #26302b; --chip-ink: #8fdcbc;
-      --warn-bg: #3a3014; --warn-ink: #f2d98a;
+      --warn-bg: #3a3014; --warn-ink: #f2d98a; --err-bg: #3d1d19; --err-ink: #f5b3ab;
+      --ok-bg: #173126; --ok-ink: #9be3c3;
     }
   }
   * { box-sizing: border-box; }
@@ -25,14 +27,17 @@
   header p { margin: 4px 0 0; color: var(--muted); }
   .banner { margin: 16px 0 0; padding: 10px 14px; border-radius: 10px;
             background: var(--warn-bg); color: var(--warn-ink); }
-  .panel { margin: 20px 0 8px; padding: 14px; background: var(--card);
+  .panel { margin: 16px 0 8px; padding: 14px; background: var(--card);
            border: 1px solid var(--line); border-radius: 14px; }
+  .lastrun { font-size: 13.5px; color: var(--muted); }
+  .lastrun strong { color: var(--ink); }
+  .lastrun .funnel { margin-top: 4px; }
   .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
   .field { display: flex; flex-direction: column; gap: 4px; min-width: 130px; flex: 1 1 130px; }
   .field.grow { flex: 3 1 220px; }
   label { font-size: 12px; color: var(--muted); }
-  select, input[type=search] { width: 100%; padding: 8px 10px; font: inherit; color: var(--ink);
-    background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+  select, input[type=search], input[type=text], input[type=password] { width: 100%; padding: 8px 10px; font: inherit;
+    color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
   .chip { cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--ink);
           padding: 4px 11px; border-radius: 999px; font: inherit; font-size: 13px; }
@@ -50,12 +55,34 @@
   .tags { display: flex; flex-wrap: wrap; gap: 6px; }
   .tag { background: var(--chip); color: var(--chip-ink); font-size: 12px; padding: 2px 9px; border-radius: 999px; }
   .tag.co { background: transparent; border: 1px solid var(--line); color: var(--muted); }
-  .open { background: var(--accent); color: var(--accent-ink); text-decoration: none; font-size: 13px;
-          padding: 6px 12px; border-radius: 8px; white-space: nowrap; }
-  .open:hover { opacity: .9; }
+  .open, .btn { background: var(--accent); color: var(--accent-ink); text-decoration: none; font: inherit; font-size: 13px;
+          padding: 6px 12px; border-radius: 8px; white-space: nowrap; border: 0; cursor: pointer; }
+  .btn.big { font-size: 14px; padding: 9px 18px; }
+  .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); }
+  .btn[disabled] { opacity: .55; cursor: not-allowed; }
+  .open:hover, .btn:hover { opacity: .9; }
   .empty { text-align: center; padding: 48px 16px; color: var(--muted); background: var(--card);
            border: 1px dashed var(--line); border-radius: 14px; }
   .reset { background: none; border: none; color: var(--accent); cursor: pointer; font: inherit; padding: 0; }
+
+  details.runbox > summary { cursor: pointer; font-weight: 600; list-style: none; display: flex;
+                             align-items: center; gap: 8px; }
+  details.runbox > summary::-webkit-details-marker { display: none; }
+  details.runbox > summary::before { content: "▸"; transition: transform .15s; }
+  details.runbox[open] > summary::before { transform: rotate(90deg); }
+  .runbody { margin-top: 12px; display: grid; gap: 12px; }
+  .hint { font-size: 12.5px; color: var(--muted); margin: 0; }
+  .status { padding: 9px 12px; border-radius: 10px; font-size: 13.5px; background: var(--chip); color: var(--chip-ink); }
+  .status.warn { background: var(--warn-bg); color: var(--warn-ink); }
+  .status.err { background: var(--err-bg); color: var(--err-ink); }
+  .status.ok { background: var(--ok-bg); color: var(--ok-ink); }
+  .status a { color: inherit; }
+  .tokenbox { border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; }
+  .tokenbox summary { cursor: pointer; font-size: 13.5px; }
+  .tokenbox ol { margin: 8px 0 8px 18px; padding: 0; font-size: 13px; color: var(--muted); }
+  .tokenbox li { margin: 2px 0; }
+  .inline { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .inline input { flex: 1 1 220px; }
 </style>
 </head>
 <body>
@@ -67,10 +94,66 @@
 
   <div id="banner"></div>
 
+  <details class="panel runbox" id="runbox">
+    <summary>Run a new search</summary>
+    <div class="runbody">
+      <form id="runform" class="row">
+        <div class="field"><label for="r_days">Time period</label>
+          <select id="r_days">
+            <option value="7" selected>Last 7 days</option>
+            <option value="14">Last 14 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="90">Last 90 days</option>
+          </select></div>
+        <div class="field"><label for="r_region">Region</label>
+          <input id="r_region" type="text" list="regionlist" placeholder="All regions in config" autocomplete="off">
+          <datalist id="regionlist"></datalist></div>
+        <div class="field"><label for="r_topic">Topic</label>
+          <select id="r_topic">
+            <option value="">All topics</option>
+            <option>Interview prep</option>
+            <option>PM skills</option>
+            <option>AI PM</option>
+            <option>Company-specific</option>
+          </select></div>
+        <div class="field grow"><label for="r_query">Or one custom search (overrides topic)</label>
+          <input id="r_query" type="text" placeholder="e.g. Stripe product manager interview" autocomplete="off"></div>
+        <div class="field" style="flex:0 0 auto"><button class="btn big" id="runbtn" type="submit">Run search</button></div>
+      </form>
+      <p class="hint">A search takes about 1–3 minutes. Each full run uses ~22 of your free monthly searches; a custom search uses 1–2.</p>
+
+      <div id="tokenbox" class="tokenbox">
+        <details id="tokendetails">
+          <summary id="tokensummary">One-time setup: connect this button to your GitHub</summary>
+          <ol>
+            <li>On GitHub, click your profile picture → <b>Settings</b> → <b>Developer settings</b> (bottom of the left menu) → <b>Personal access tokens</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b>.</li>
+            <li>Name it <b>pm-radar-button</b>. Expiration: <b>90 days</b>.</li>
+            <li><b>Repository access</b> → <b>Only select repositories</b> → choose <b>PM-Radar</b>.</li>
+            <li><b>Permissions</b> → <b>Repository permissions</b> → set <b>Actions</b> to <b>Read and write</b>. Leave everything else alone.</li>
+            <li>Click <b>Generate token</b>, copy it, and paste it below. It is stored only in this browser, never in your repository. Don't share it.</li>
+          </ol>
+          <div class="inline">
+            <input id="tokeninput" type="password" placeholder="Paste your token here" autocomplete="off">
+            <button class="btn" id="tokensave" type="button">Save token</button>
+            <button class="btn ghost" id="tokenforget" type="button">Forget token</button>
+          </div>
+        </details>
+      </div>
+      <div id="runstatus" class="status" role="status" aria-live="polite" hidden></div>
+    </div>
+  </details>
+
+  <section class="panel lastrun" id="lastrun" hidden></section>
+
   <section class="panel" aria-label="Filters">
     <div class="row">
       <div class="field grow"><label for="q">Search</label>
         <input id="q" type="search" placeholder="Keyword, author, company..."></div>
+      <div class="field"><label for="scope">Show</label>
+        <select id="scope">
+          <option value="all" selected>All stored posts</option>
+          <option value="latest">Latest search only</option>
+        </select></div>
       <div class="field"><label for="period">Time period</label>
         <select id="period">
           <option value="7">Last 7 days</option>
@@ -106,7 +189,15 @@
 (function () {
   var DATA = window.RADAR_DATA || { posts: [], regions: [], tags: [], companies: [] };
   var activeTags = {};
+  var WORKFLOW = "refresh.yml";
+  var OWNER = "", REPO = "";
+  var busy = false;
   var $ = function (id) { return document.getElementById(id); };
+
+  (function inferRepo() {
+    var host = location.hostname, seg = location.pathname.split("/").filter(Boolean);
+    if (/\.github\.io$/i.test(host)) { OWNER = host.split(".")[0]; REPO = seg[0] || ""; }
+  })();
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -127,22 +218,49 @@
     return Math.round((n - d) / 86400000);
   }
 
-  function fillSelect(id, values) {
-    var el = $(id);
+  /* ---------- token storage (browser only) ---------- */
+  function getToken() { try { return localStorage.getItem("pmradar_token") || ""; } catch (e) { return ""; } }
+  function setToken(v) {
+    try { if (v) { localStorage.setItem("pmradar_token", v); } else { localStorage.removeItem("pmradar_token"); } return true; }
+    catch (e) { return false; }
+  }
+  function refreshTokenUi() {
+    var has = !!getToken();
+    $("tokensummary").textContent = has ? "Connected to GitHub (token saved in this browser)"
+                                        : "One-time setup: connect this button to your GitHub";
+    $("tokeninput").value = "";
+  }
+
+  /* ---------- filters / render ---------- */
+  function resetSelect(id, values) {
+    var el = $(id), keep = el.value;
+    while (el.options.length > 1) { el.remove(1); }
     values.forEach(function (v) {
       var o = document.createElement("option");
       o.value = v; o.textContent = v; el.appendChild(o);
     });
+    el.value = values.indexOf(keep) >= 0 ? keep : "";
   }
 
-  function setup() {
-    fillSelect("region", DATA.regions || []);
-    fillSelect("company", DATA.companies || []);
+  function applyData() {
+    resetSelect("region", DATA.regions || []);
+    resetSelect("company", DATA.companies || []);
+
+    var dl = $("regionlist");
+    dl.innerHTML = "";
+    var suggestions = ["India", "Global", "United States", "United Kingdom", "Canada", "Singapore",
+                       "United Arab Emirates", "Germany", "Australia"];
+    (DATA.regions || []).forEach(function (r) { if (suggestions.indexOf(r) < 0) suggestions.push(r); });
+    suggestions.forEach(function (r) { var o = document.createElement("option"); o.value = r; dl.appendChild(o); });
+
     var chips = $("chips");
+    chips.innerHTML = "";
+    var valid = {};
     (DATA.tags || []).forEach(function (t) {
+      valid[t] = true;
       var b = document.createElement("button");
       b.type = "button"; b.className = "chip"; b.textContent = t;
-      b.setAttribute("aria-pressed", "false");
+      b.setAttribute("aria-pressed", String(!!activeTags[t]));
       b.onclick = function () {
         activeTags[t] = !activeTags[t];
         b.setAttribute("aria-pressed", String(!!activeTags[t]));
@@ -150,27 +268,51 @@
       };
       chips.appendChild(b);
     });
-    ["q", "period", "region", "company", "type"].forEach(function (id) {
-      $(id).addEventListener(id === "q" ? "input" : "change", render);
-    });
-    if (DATA.demo) {
-      $("banner").innerHTML = '<div class="banner"><strong>Demo data.</strong> These are sample ' +
-        'cards so you can see the layout. Links are placeholders. Run the GitHub workflow to ' +
-        'fetch real posts.</div>';
+    Object.keys(activeTags).forEach(function (t) { if (!valid[t]) delete activeTags[t]; });
+
+    $("banner").innerHTML = DATA.demo
+      ? '<div class="banner"><strong>Demo data.</strong> These are sample cards so you can see the layout. ' +
+        'Links are placeholders. Use <b>Run a new search</b> above (or the GitHub workflow) to fetch real posts.</div>'
+      : "";
+    $("updated").textContent = DATA.updated
+      ? "Updated " + new Date(DATA.updated).toLocaleString(undefined,
+          { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })
+      : "";
+    renderLastRun();
+    render();
+  }
+
+  function renderLastRun() {
+    var el = $("lastrun"), s = DATA.settings || {};
+    if (DATA.demo || !s.run_id) { el.hidden = true; return; }
+    var what = s.query ? "Custom search: “" + s.query + "”"
+                       : "Topics: " + ((s.topics || []).join(", ") || "all");
+    var line = "<strong>Latest search</strong> · " + esc(what) + " · last " + esc(s.days) + " days · " +
+               esc((s.regions || []).join(", ") || "all regions") + " · " + esc(s.searches_run) + " searches used";
+    var f = s.funnel;
+    var extra = "";
+    if (f) {
+      extra = '<div class="funnel">The search returned ' + esc(f.results) + " results → " + esc(f.posts_found) +
+        " were LinkedIn posts or articles → " + esc(f.in_window) + " fell inside the time window → " +
+        esc(f.relevant) + " are about product management.</div>";
     }
-    if (DATA.updated) {
-      $("updated").textContent = "Updated " + new Date(DATA.updated).toLocaleString(undefined,
-        { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+    if (s.ai_summaries === false && (s.new_posts || 0) > 0) {
+      extra += '<div class="funnel">Summaries on this run come from the search snippet (Gemini was not used).</div>';
     }
+    el.innerHTML = line + extra;
+    el.hidden = false;
   }
 
   function render() {
     var q = $("q").value.trim().toLowerCase();
     var period = parseInt($("period").value, 10);
     var region = $("region").value, company = $("company").value, type = $("type").value;
+    var scope = $("scope").value;
+    var runId = (DATA.settings || {}).run_id;
     var tags = Object.keys(activeTags).filter(function (t) { return activeTags[t]; });
 
     var out = (DATA.posts || []).filter(function (p) {
+      if (scope === "latest" && runId && p.last_run !== runId) return false;
       if (period && p.date && daysAgo(p.date) > period) return false;
       if (region && (p.regions || []).indexOf(region) < 0) return false;
       if (company && (p.companies || []).indexOf(company) < 0) return false;
@@ -184,14 +326,15 @@
       return true;
     });
 
-    $("count").textContent = out.length + (out.length === 1 ? " post" : " posts");
+    $("count").textContent = out.length + (out.length === 1 ? " post" : " posts") +
+      (scope === "latest" ? " from the latest search" : "");
     var list = $("list");
     if (!out.length) {
       list.innerHTML = '<div class="empty">Nothing matches these filters.<br>' +
         '<button class="reset" id="reset">Clear filters</button></div>';
       $("reset").onclick = function () {
         $("q").value = ""; $("region").value = ""; $("company").value = ""; $("type").value = "";
-        $("period").value = "30"; activeTags = {};
+        $("period").value = "30"; $("scope").value = "all"; activeTags = {};
         Array.prototype.forEach.call(document.querySelectorAll(".chip"), function (c) {
           c.setAttribute("aria-pressed", "false");
         });
@@ -201,7 +344,7 @@
     }
     list.innerHTML = out.map(function (p) {
       var url = safeUrl(p.url);
-      var when = p.date_source === "post" ? fmtDate(p.date) : "Found " + fmtDate(p.date);
+      var when = p.date_source === "first_seen" ? "Found " + fmtDate(p.date) : fmtDate(p.date);
       var by = [p.author, when, (p.regions || []).join(", ")].filter(Boolean).map(esc).join(" · ");
       var tagHtml = (p.tags || []).map(function (t) { return '<span class="tag">' + esc(t) + "</span>"; }).join("") +
         (p.companies || []).map(function (c) { return '<span class="tag co">' + esc(c) + "</span>"; }).join("");
@@ -215,8 +358,166 @@
     }).join("");
   }
 
-  setup();
-  render();
+  /* ---------- run a search from the page ---------- */
+  function setStatus(html, kind) {
+    var el = $("runstatus");
+    el.className = "status" + (kind ? " " + kind : "");
+    el.innerHTML = html;
+    el.hidden = false;
+  }
+  function setBusy(b) { busy = b; $("runbtn").disabled = b; $("runbtn").textContent = b ? "Running…" : "Run search"; }
+
+  function gh(path, opts) {
+    opts = opts || {};
+    opts.headers = {
+      "Accept": "application/vnd.github+json",
+      "Authorization": "Bearer " + getToken(),
+      "X-GitHub-Api-Version": "2022-11-28"
+    };
+    if (opts.body) { opts.headers["Content-Type"] = "application/json"; }
+    return fetch("https://api.github.com/repos/" + OWNER + "/" + REPO + path, opts);
+  }
+
+  function later(fn, ms) { setTimeout(fn, ms); }
+
+  function loadData(cb) {
+    var s = document.createElement("script");
+    s.src = "posts.js?t=" + Date.now();
+    s.onload = function () { var d = window.RADAR_DATA; s.remove(); cb(d); };
+    s.onerror = function () { s.remove(); cb(null); };
+    document.head.appendChild(s);
+  }
+
+  function waitForData(previous, tries) {
+    loadData(function (d) {
+      if (d && d.updated && d.updated !== previous) {
+        DATA = d;
+        $("scope").value = "latest";
+        applyData();
+        var rid = d.settings && d.settings.run_id;
+        var n = (d.posts || []).filter(function (p) { return p.last_run === rid; }).length;
+        setStatus("Done. The page now shows the latest search (" + esc(n) + " relevant posts). " +
+                  "Switch <b>Show</b> to “All stored posts” to see older ones too.", "ok");
+        setBusy(false);
+        return;
+      }
+      if (tries >= 18) {
+        setStatus("The search finished, but the website is still publishing the new results. " +
+                  "Refresh this page in a minute.", "warn");
+        setBusy(false);
+        return;
+      }
+      later(function () { waitForData(previous, tries + 1); }, 10000);
+    });
+  }
+
+  function pollRun(startedAt, previous, tries) {
+    gh("/actions/workflows/" + WORKFLOW + "/runs?event=workflow_dispatch&per_page=5")
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (!res.ok) { throw new Error(res.j && res.j.message ? res.j.message : "Could not check the run"); }
+        var runs = (res.j.workflow_runs || []).filter(function (r) {
+          return new Date(r.created_at).getTime() >= startedAt - 60000;
+        });
+        var run = runs[0];
+        if (!run) {
+          if (tries >= 12) {
+            setStatus("The search was requested, but I can’t see it yet. Check the Actions tab on GitHub.", "warn");
+            setBusy(false);
+            return;
+          }
+          later(function () { pollRun(startedAt, previous, tries + 1); }, 8000);
+          return;
+        }
+        if (run.status !== "completed") {
+          setStatus("Searching… (" + esc(run.status.replace("_", " ")) + "). This usually takes 1–3 minutes. " +
+                    '<a href="' + esc(run.html_url) + '" target="_blank" rel="noopener noreferrer">Watch on GitHub</a>');
+          later(function () { pollRun(startedAt, previous, tries + 1); }, 10000);
+          return;
+        }
+        if (run.conclusion !== "success") {
+          setStatus("The search did not finish successfully (" + esc(run.conclusion) + "). " +
+                    '<a href="' + esc(run.html_url) + '" target="_blank" rel="noopener noreferrer">See what went wrong</a>', "err");
+          setBusy(false);
+          return;
+        }
+        setStatus("Search finished. Loading the new results…");
+        waitForData(previous, 0);
+      })
+      .catch(function (e) {
+        setStatus("Couldn’t check progress: " + esc(e.message) + ". Your search may still be running; check the Actions tab on GitHub.", "warn");
+        setBusy(false);
+      });
+  }
+
+  function startRun() {
+    if (busy) return;
+    if (!OWNER || !REPO) {
+      setStatus("Open the live site (https://YOUR-NAME.github.io/PM-Radar/) to use this button. " +
+                "It can’t reach GitHub from a downloaded copy.", "warn");
+      return;
+    }
+    if (!getToken()) {
+      $("tokendetails").open = true;
+      setStatus("Add your GitHub token first (one-time setup below), then press Run search again.", "warn");
+      return;
+    }
+    var inputs = {
+      days: String($("r_days").value),
+      regions: $("r_region").value.trim(),
+      topics: $("r_topic").value,
+      query: $("r_query").value.trim()
+    };
+    setBusy(true);
+    setStatus("Starting your search…");
+    var startedAt = Date.now(), previous = DATA.updated;
+    gh("/actions/workflows/" + WORKFLOW + "/dispatches", {
+      method: "POST", body: JSON.stringify({ ref: "main", inputs: inputs })
+    }).then(function (r) {
+      if (r.status === 204) {
+        setStatus("Search started. This usually takes 1–3 minutes…");
+        later(function () { pollRun(startedAt, previous, 0); }, 6000);
+        return;
+      }
+      return r.json().catch(function () { return {}; }).then(function (j) {
+        var msg;
+        if (r.status === 401) { msg = "GitHub didn’t accept the token. It may be wrong or expired. Use “Forget token” and paste a new one."; }
+        else if (r.status === 403 || r.status === 404) { msg = "The token can’t start workflows on this repository. Check it has access to PM-Radar with <b>Actions: Read and write</b>."; }
+        else if (r.status === 422) { msg = "GitHub rejected the request: " + esc((j && j.message) || "invalid input") + "."; }
+        else { msg = "GitHub returned an error (" + r.status + ")."; }
+        setStatus(msg, "err");
+        setBusy(false);
+      });
+    }).catch(function () {
+      setStatus("Couldn’t reach GitHub. Check your internet connection and try again.", "err");
+      setBusy(false);
+    });
+  }
+
+  /* ---------- wire up ---------- */
+  ["q", "period", "region", "company", "type", "scope"].forEach(function (id) {
+    $(id).addEventListener(id === "q" ? "input" : "change", render);
+  });
+  $("runform").addEventListener("submit", function (e) { e.preventDefault(); startRun(); });
+  $("tokensave").addEventListener("click", function () {
+    var v = $("tokeninput").value.trim();
+    if (!v) { setStatus("Paste your token in the box first.", "warn"); return; }
+    if (setToken(v)) {
+      refreshTokenUi();
+      $("tokendetails").open = false;
+      setStatus("Token saved in this browser. You can run a search now.", "ok");
+    } else {
+      setStatus("This browser blocked saving the token (private window?). Try a normal window.", "err");
+    }
+  });
+  $("tokenforget").addEventListener("click", function () {
+    setToken("");
+    refreshTokenUi();
+    setStatus("Token removed from this browser.", "ok");
+  });
+
+  refreshTokenUi();
+  applyData();
 })();
 </script>
 </body>
