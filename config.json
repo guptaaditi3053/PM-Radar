@@ -1,0 +1,47 @@
+{
+  "_help": "Edit this file to change what gets fetched. Keep the quotes, commas and brackets exactly as they are.",
+
+  "time_period_days": 7,
+  "max_results_per_query": 20,
+  "keep_history_days": 90,
+  "max_credits_per_run": 30,
+  "api_date_filter": false,
+
+  "regions": [
+    { "label": "India",  "country": "india", "keywords": "India" },
+    { "label": "Global", "country": "",      "keywords": "" }
+  ],
+
+  "topics": [
+    { "tag": "Interview prep", "queries": [
+        "product manager interview questions",
+        "PM interview tips product sense execution",
+        "how I cracked product manager interview"
+    ]},
+    { "tag": "PM skills", "queries": [
+        "product management skills",
+        "product manager prioritization frameworks",
+        "product manager career growth lessons"
+    ]},
+    { "tag": "AI PM", "queries": [
+        "AI product manager skills",
+        "AI PM interview questions",
+        "product management in the age of AI"
+    ]},
+    { "tag": "Company-specific", "queries": [
+        "Google Meta Amazon product manager interview",
+        "Flipkart Swiggy Razorpay product manager interview"
+    ]}
+  ],
+
+  "companies": [
+    "Google", "Meta", "Amazon", "Microsoft", "Apple", "Netflix", "Uber", "Airbnb",
+    "Atlassian", "Adobe", "Salesforce", "OpenAI", "Anthropic",
+    "Flipkart", "Swiggy", "Zomato", "Razorpay", "PhonePe", "Paytm", "CRED", "Meesho", "Ola", "Zepto"
+  ],
+
+  "llm": {
+    "models": ["gemini-2.5-flash-lite", "gemini-2.5-flash"],
+    "batch_size": 15
+  }
+}

@@ -1,0 +1,188 @@
+{
+ "updated": "2026-10-03T09:53:19+00:00",
+ "demo": true,
+ "settings": {
+  "days": 30,
+  "note": "demo data"
+ },
+ "regions": [
+  "Global",
+  "India"
+ ],
+ "tags": [
+  "AI PM",
+  "Case study",
+  "Company-specific",
+  "Frameworks",
+  "Interview prep",
+  "PM skills"
+ ],
+ "companies": [
+  "Google",
+  "Swiggy"
+ ],
+ "posts": [
+  {
+   "url": "https://www.linkedin.com/posts/demo-sample-1",
+   "type": "post",
+   "author": "Asha Verma",
+   "title": "How I prepared for 30+ PM interviews in 3 months",
+   "snippet": "A structured prep plan: product sense on Mondays, execution on Wednesdays, and one mock a week.",
+   "summary": "A structured prep plan: product sense on Mondays, execution on Wednesdays, and one mock a week.",
+   "summary_source": "demo",
+   "date": "2026-10-02",
+   "date_source": "post",
+   "first_seen": "2026-10-02",
+   "regions": [
+    "India"
+   ],
+   "topics": [
+    "Interview prep",
+    "Frameworks"
+   ],
+   "tags": [
+    "Interview prep",
+    "Frameworks"
+   ],
+   "companies": [],
+   "relevant": true,
+   "demo": true
+  },
+  {
+   "url": "https://www.linkedin.com/posts/demo-sample-2",
+   "type": "post",
+   "author": "Rahul Menon",
+   "title": "What 'AI PM' really means at product companies",
+   "snippet": "Breaks AI product management into model quality, data loops, evals and UX guardrails.",
+   "summary": "Breaks AI product management into model quality, data loops, evals and UX guardrails.",
+   "summary_source": "demo",
+   "date": "2026-10-01",
+   "date_source": "post",
+   "first_seen": "2026-10-01",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM",
+    "PM skills"
+   ],
+   "tags": [
+    "AI PM",
+    "PM skills"
+   ],
+   "companies": [],
+   "relevant": true,
+   "demo": true
+  },
+  {
+   "url": "https://www.linkedin.com/posts/demo-sample-3",
+   "type": "post",
+   "author": "Priya Nair",
+   "title": "Google PM interview: the product sense round decoded",
+   "snippet": "Walks through how candidates are scored on user empathy, structure and prioritisation.",
+   "summary": "Walks through how candidates are scored on user empathy, structure and prioritisation.",
+   "summary_source": "demo",
+   "date": "2026-09-30",
+   "date_source": "post",
+   "first_seen": "2026-09-30",
+   "regions": [
+    "Global",
+    "India"
+   ],
+   "topics": [
+    "Interview prep",
+    "Company-specific"
+   ],
+   "tags": [
+    "Interview prep",
+    "Company-specific"
+   ],
+   "companies": [
+    "Google"
+   ],
+   "relevant": true,
+   "demo": true
+  },
+  {
+   "url": "https://www.linkedin.com/posts/demo-sample-4",
+   "type": "post",
+   "author": "Karan Shah",
+   "title": "Prioritisation frameworks I actually use as a PM",
+   "snippet": "Compares RICE, ICE and a simple impact-vs-effort grid, and when each one breaks down.",
+   "summary": "Compares RICE, ICE and a simple impact-vs-effort grid, and when each one breaks down.",
+   "summary_source": "demo",
+   "date": "2026-09-28",
+   "date_source": "post",
+   "first_seen": "2026-09-28",
+   "regions": [
+    "India"
+   ],
+   "topics": [
+    "PM skills",
+    "Frameworks"
+   ],
+   "tags": [
+    "PM skills",
+    "Frameworks"
+   ],
+   "companies": [],
+   "relevant": true,
+   "demo": true
+  },
+  {
+   "url": "https://www.linkedin.com/posts/demo-sample-5",
+   "type": "post",
+   "author": "Meera Iyer",
+   "title": "Swiggy PM case study: reducing delivery-time anxiety",
+   "snippet": "A teardown of a food-delivery problem with metrics, hypotheses and a rollout plan.",
+   "summary": "A teardown of a food-delivery problem with metrics, hypotheses and a rollout plan.",
+   "summary_source": "demo",
+   "date": "2026-09-25",
+   "date_source": "post",
+   "first_seen": "2026-09-25",
+   "regions": [
+    "India"
+   ],
+   "topics": [
+    "Case study",
+    "Company-specific"
+   ],
+   "tags": [
+    "Case study",
+    "Company-specific"
+   ],
+   "companies": [
+    "Swiggy"
+   ],
+   "relevant": true,
+   "demo": true
+  },
+  {
+   "url": "https://www.linkedin.com/posts/demo-sample-6",
+   "type": "post",
+   "author": "Daniel Brooks",
+   "title": "Eval-driven development for AI products",
+   "snippet": "Why PMs should own the eval set for LLM features and how to start with 50 examples.",
+   "summary": "Why PMs should own the eval set for LLM features and how to start with 50 examples.",
+   "summary_source": "demo",
+   "date": "2026-09-21",
+   "date_source": "post",
+   "first_seen": "2026-09-21",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM",
+    "Frameworks"
+   ],
+   "tags": [
+    "AI PM",
+    "Frameworks"
+   ],
+   "companies": [],
+   "relevant": true,
+   "demo": true
+  }
+ ],
+ "_hidden": []
+}

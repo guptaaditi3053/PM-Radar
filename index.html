@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PM Radar</title>
+<style>
+  :root {
+    --bg: #f6f5f1; --card: #ffffff; --ink: #1d1d1b; --muted: #6b6a64; --line: #e3e1d8;
+    --accent: #1f5f4a; --accent-ink: #ffffff; --chip: #eef3f0; --chip-ink: #1f5f4a;
+    --warn-bg: #fff4d6; --warn-ink: #6b4e00;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #151614; --card: #1f201d; --ink: #ecebe5; --muted: #a09f96; --line: #33342f;
+      --accent: #6fcfa6; --accent-ink: #0d1a14; --chip: #26302b; --chip-ink: #8fdcbc;
+      --warn-bg: #3a3014; --warn-ink: #f2d98a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; }
+  header h1 { margin: 0; font-size: 26px; letter-spacing: -0.01em; }
+  header p { margin: 4px 0 0; color: var(--muted); }
+  .banner { margin: 16px 0 0; padding: 10px 14px; border-radius: 10px;
+            background: var(--warn-bg); color: var(--warn-ink); }
+  .panel { margin: 20px 0 8px; padding: 14px; background: var(--card);
+           border: 1px solid var(--line); border-radius: 14px; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+  .field { display: flex; flex-direction: column; gap: 4px; min-width: 130px; flex: 1 1 130px; }
+  .field.grow { flex: 3 1 220px; }
+  label { font-size: 12px; color: var(--muted); }
+  select, input[type=search] { width: 100%; padding: 8px 10px; font: inherit; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .chip { cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--ink);
+          padding: 4px 11px; border-radius: 999px; font: inherit; font-size: 13px; }
+  .chip[aria-pressed=true] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+          margin: 14px 2px 10px; color: var(--muted); font-size: 13px; }
+  .list { display: grid; gap: 12px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+  .card h2 { margin: 0 0 4px; font-size: 16px; line-height: 1.35; }
+  .card h2 a { color: var(--ink); text-decoration: none; }
+  .card h2 a:hover { text-decoration: underline; }
+  .byline { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  .summary { margin: 0 0 12px; }
+  .foot { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: space-between; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { background: var(--chip); color: var(--chip-ink); font-size: 12px; padding: 2px 9px; border-radius: 999px; }
+  .tag.co { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+  .open { background: var(--accent); color: var(--accent-ink); text-decoration: none; font-size: 13px;
+          padding: 6px 12px; border-radius: 8px; white-space: nowrap; }
+  .open:hover { opacity: .9; }
+  .empty { text-align: center; padding: 48px 16px; color: var(--muted); background: var(--card);
+           border: 1px dashed var(--line); border-radius: 14px; }
+  .reset { background: none; border: none; color: var(--accent); cursor: pointer; font: inherit; padding: 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>PM Radar</h1>
+    <p>LinkedIn posts about product-management interviews and skills.</p>
+  </header>
+
+  <div id="banner"></div>
+
+  <section class="panel" aria-label="Filters">
+    <div class="row">
+      <div class="field grow"><label for="q">Search</label>
+        <input id="q" type="search" placeholder="Keyword, author, company..."></div>
+      <div class="field"><label for="period">Time period</label>
+        <select id="period">
+          <option value="7">Last 7 days</option>
+          <option value="14">Last 14 days</option>
+          <option value="30" selected>Last 30 days</option>
+          <option value="90">Last 90 days</option>
+          <option value="0">Everything stored</option>
+        </select></div>
+      <div class="field"><label for="region">Region</label>
+        <select id="region"><option value="">All regions</option></select></div>
+      <div class="field"><label for="company">Company</label>
+        <select id="company"><option value="">All companies</option></select></div>
+      <div class="field"><label for="type">Type</label>
+        <select id="type">
+          <option value="">Posts &amp; articles</option>
+          <option value="post">Posts only</option>
+          <option value="article">Articles only</option>
+        </select></div>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Topic filters"></div>
+  </section>
+
+  <div class="meta">
+    <span id="count"></span>
+    <span id="updated"></span>
+  </div>
+
+  <main class="list" id="list"></main>
+</div>
+
+<script src="posts.js"></script>
+<script>
+(function () {
+  var DATA = window.RADAR_DATA || { posts: [], regions: [], tags: [], companies: [] };
+  var activeTags = {};
+  var $ = function (id) { return document.getElementById(id); };
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function safeUrl(u) {
+    return /^https:\/\/([a-z0-9-]+\.)?linkedin\.com\//i.test(u) ? u : "#";
+  }
+  function fmtDate(iso) {
+    if (!iso) return "";
+    var d = new Date(iso + "T00:00:00");
+    return d.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+  }
+  function daysAgo(iso) {
+    var d = new Date(iso + "T00:00:00"), n = new Date();
+    n.setHours(0, 0, 0, 0);
+    return Math.round((n - d) / 86400000);
+  }
+
+  function fillSelect(id, values) {
+    var el = $(id);
+    values.forEach(function (v) {
+      var o = document.createElement("option");
+      o.value = v; o.textContent = v; el.appendChild(o);
+    });
+  }
+
+  function setup() {
+    fillSelect("region", DATA.regions || []);
+    fillSelect("company", DATA.companies || []);
+    var chips = $("chips");
+    (DATA.tags || []).forEach(function (t) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "chip"; b.textContent = t;
+      b.setAttribute("aria-pressed", "false");
+      b.onclick = function () {
+        activeTags[t] = !activeTags[t];
+        b.setAttribute("aria-pressed", String(!!activeTags[t]));
+        render();
+      };
+      chips.appendChild(b);
+    });
+    ["q", "period", "region", "company", "type"].forEach(function (id) {
+      $(id).addEventListener(id === "q" ? "input" : "change", render);
+    });
+    if (DATA.demo) {
+      $("banner").innerHTML = '<div class="banner"><strong>Demo data.</strong> These are sample ' +
+        'cards so you can see the layout. Links are placeholders. Run the GitHub workflow to ' +
+        'fetch real posts.</div>';
+    }
+    if (DATA.updated) {
+      $("updated").textContent = "Updated " + new Date(DATA.updated).toLocaleString(undefined,
+        { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+    }
+  }
+
+  function render() {
+    var q = $("q").value.trim().toLowerCase();
+    var period = parseInt($("period").value, 10);
+    var region = $("region").value, company = $("company").value, type = $("type").value;
+    var tags = Object.keys(activeTags).filter(function (t) { return activeTags[t]; });
+
+    var out = (DATA.posts || []).filter(function (p) {
+      if (period && p.date && daysAgo(p.date) > period) return false;
+      if (region && (p.regions || []).indexOf(region) < 0) return false;
+      if (company && (p.companies || []).indexOf(company) < 0) return false;
+      if (type && p.type !== type) return false;
+      if (tags.length && !tags.every(function (t) { return (p.tags || []).indexOf(t) >= 0; })) return false;
+      if (q) {
+        var hay = [p.title, p.summary, p.author, (p.companies || []).join(" "),
+                   (p.tags || []).join(" ")].join(" ").toLowerCase();
+        if (hay.indexOf(q) < 0) return false;
+      }
+      return true;
+    });
+
+    $("count").textContent = out.length + (out.length === 1 ? " post" : " posts");
+    var list = $("list");
+    if (!out.length) {
+      list.innerHTML = '<div class="empty">Nothing matches these filters.<br>' +
+        '<button class="reset" id="reset">Clear filters</button></div>';
+      $("reset").onclick = function () {
+        $("q").value = ""; $("region").value = ""; $("company").value = ""; $("type").value = "";
+        $("period").value = "30"; activeTags = {};
+        Array.prototype.forEach.call(document.querySelectorAll(".chip"), function (c) {
+          c.setAttribute("aria-pressed", "false");
+        });
+        render();
+      };
+      return;
+    }
+    list.innerHTML = out.map(function (p) {
+      var url = safeUrl(p.url);
+      var when = p.date_source === "post" ? fmtDate(p.date) : "Found " + fmtDate(p.date);
+      var by = [p.author, when, (p.regions || []).join(", ")].filter(Boolean).map(esc).join(" · ");
+      var tagHtml = (p.tags || []).map(function (t) { return '<span class="tag">' + esc(t) + "</span>"; }).join("") +
+        (p.companies || []).map(function (c) { return '<span class="tag co">' + esc(c) + "</span>"; }).join("");
+      return '<article class="card">' +
+        '<h2><a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + esc(p.title || p.url) + "</a></h2>" +
+        '<div class="byline">' + by + "</div>" +
+        '<p class="summary">' + esc(p.summary || "") + "</p>" +
+        '<div class="foot"><div class="tags">' + tagHtml + "</div>" +
+        '<a class="open" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">Open on LinkedIn ↗</a></div>' +
+        "</article>";
+    }).join("");
+  }
+
+  setup();
+  render();
+})();
+</script>
+</body>
+</html>
