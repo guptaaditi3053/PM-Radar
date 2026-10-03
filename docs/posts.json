@@ -1,188 +1,198 @@
 {
- "updated": "2026-10-03T09:53:19+00:00",
- "demo": true,
+ "updated": "2026-10-03T14:52:47+00:00",
+ "demo": false,
  "settings": {
-  "days": 30,
-  "note": "demo data"
+  "days": 3,
+  "regions": [
+   "Global"
+  ],
+  "topics": [
+   "AI PM"
+  ],
+  "searches_run": 3,
+  "new_posts": 5
  },
  "regions": [
-  "Global",
-  "India"
+  "Global"
  ],
  "tags": [
-  "AI PM",
-  "Case study",
-  "Company-specific",
-  "Frameworks",
-  "Interview prep",
-  "PM skills"
+  "AI PM"
  ],
- "companies": [
-  "Google",
-  "Swiggy"
- ],
+ "companies": [],
  "posts": [
   {
-   "url": "https://www.linkedin.com/posts/demo-sample-1",
-   "type": "post",
-   "author": "Asha Verma",
-   "title": "How I prepared for 30+ PM interviews in 3 months",
-   "snippet": "A structured prep plan: product sense on Mondays, execution on Wednesdays, and one mock a week.",
-   "summary": "A structured prep plan: product sense on Mondays, execution on Wednesdays, and one mock a week.",
-   "summary_source": "demo",
-   "date": "2026-10-02",
-   "date_source": "post",
-   "first_seen": "2026-10-02",
-   "regions": [
-    "India"
-   ],
-   "topics": [
-    "Interview prep",
-    "Frameworks"
-   ],
-   "tags": [
-    "Interview prep",
-    "Frameworks"
-   ],
-   "companies": [],
-   "relevant": true,
-   "demo": true
-  },
-  {
-   "url": "https://www.linkedin.com/posts/demo-sample-2",
-   "type": "post",
-   "author": "Rahul Menon",
-   "title": "What 'AI PM' really means at product companies",
-   "snippet": "Breaks AI product management into model quality, data loops, evals and UX guardrails.",
-   "summary": "Breaks AI product management into model quality, data loops, evals and UX guardrails.",
-   "summary_source": "demo",
-   "date": "2026-10-01",
-   "date_source": "post",
-   "first_seen": "2026-10-01",
+   "url": "https://www.linkedin.com/pulse/ai-accelerates-sprint-humans-still-make-call-agile-project-azim-rgxzf",
+   "type": "article",
+   "author": "",
+   "title": "AI Accelerates the Sprint. Humans Still Make the Call: Agile ...",
+   "snippet": "5 days ago · AI Accelerates the Sprint. Humans Still Make the Call: Agile Project & Product Management in the Age of AI Mirza Asif Azim Mirza Asif Azim Published Sep 28, 2026 + Follow",
+   "date": "2026-10-03",
+   "date_source": "first_seen",
+   "first_seen": "2026-10-03",
    "regions": [
     "Global"
    ],
    "topics": [
-    "AI PM",
-    "PM skills"
+    "AI PM"
    ],
    "tags": [
-    "AI PM",
-    "PM skills"
+    "AI PM"
    ],
    "companies": [],
    "relevant": true,
-   "demo": true
+   "summary": "5 days ago · AI Accelerates the Sprint. Humans Still Make the Call: Agile Project & Product Management in the Age of AI Mirza Asif Azim Mirza Asif Azim Published Sep 28, 2026 + Follow",
+   "summary_source": "snippet"
   },
   {
-   "url": "https://www.linkedin.com/posts/demo-sample-3",
+   "url": "https://www.linkedin.com/posts/dmkhalapsus_pminterview-productmanagement-activity-7510994481656225792-yIlC",
    "type": "post",
-   "author": "Priya Nair",
-   "title": "Google PM interview: the product sense round decoded",
-   "snippet": "Walks through how candidates are scored on user empathy, structure and prioritisation.",
-   "summary": "Walks through how candidates are scored on user empathy, structure and prioritisation.",
-   "summary_source": "demo",
+   "author": "Dmkhalapsus",
+   "title": "Dmytro Khalapsus - pminterview #productmanagement",
+   "snippet": "Voice-based AI interviews with PM-specific questions, follow-ups and feedback.",
    "date": "2026-09-30",
    "date_source": "post",
-   "first_seen": "2026-09-30",
-   "regions": [
-    "Global",
-    "India"
-   ],
-   "topics": [
-    "Interview prep",
-    "Company-specific"
-   ],
-   "tags": [
-    "Interview prep",
-    "Company-specific"
-   ],
-   "companies": [
-    "Google"
-   ],
-   "relevant": true,
-   "demo": true
-  },
-  {
-   "url": "https://www.linkedin.com/posts/demo-sample-4",
-   "type": "post",
-   "author": "Karan Shah",
-   "title": "Prioritisation frameworks I actually use as a PM",
-   "snippet": "Compares RICE, ICE and a simple impact-vs-effort grid, and when each one breaks down.",
-   "summary": "Compares RICE, ICE and a simple impact-vs-effort grid, and when each one breaks down.",
-   "summary_source": "demo",
-   "date": "2026-09-28",
-   "date_source": "post",
-   "first_seen": "2026-09-28",
-   "regions": [
-    "India"
-   ],
-   "topics": [
-    "PM skills",
-    "Frameworks"
-   ],
-   "tags": [
-    "PM skills",
-    "Frameworks"
-   ],
-   "companies": [],
-   "relevant": true,
-   "demo": true
-  },
-  {
-   "url": "https://www.linkedin.com/posts/demo-sample-5",
-   "type": "post",
-   "author": "Meera Iyer",
-   "title": "Swiggy PM case study: reducing delivery-time anxiety",
-   "snippet": "A teardown of a food-delivery problem with metrics, hypotheses and a rollout plan.",
-   "summary": "A teardown of a food-delivery problem with metrics, hypotheses and a rollout plan.",
-   "summary_source": "demo",
-   "date": "2026-09-25",
-   "date_source": "post",
-   "first_seen": "2026-09-25",
-   "regions": [
-    "India"
-   ],
-   "topics": [
-    "Case study",
-    "Company-specific"
-   ],
-   "tags": [
-    "Case study",
-    "Company-specific"
-   ],
-   "companies": [
-    "Swiggy"
-   ],
-   "relevant": true,
-   "demo": true
-  },
-  {
-   "url": "https://www.linkedin.com/posts/demo-sample-6",
-   "type": "post",
-   "author": "Daniel Brooks",
-   "title": "Eval-driven development for AI products",
-   "snippet": "Why PMs should own the eval set for LLM features and how to start with 50 examples.",
-   "summary": "Why PMs should own the eval set for LLM features and how to start with 50 examples.",
-   "summary_source": "demo",
-   "date": "2026-09-21",
-   "date_source": "post",
-   "first_seen": "2026-09-21",
+   "first_seen": "2026-10-03",
    "regions": [
     "Global"
    ],
    "topics": [
-    "AI PM",
-    "Frameworks"
+    "AI PM"
    ],
    "tags": [
-    "AI PM",
-    "Frameworks"
+    "AI PM"
    ],
    "companies": [],
    "relevant": true,
-   "demo": true
+   "summary": "Voice-based AI interviews with PM-specific questions, follow-ups and feedback.",
+   "summary_source": "snippet"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/shobhitchugh_if-i-was-a-product-manager-with-a-non-ai-activity-7511100267325648896-0KaZ",
+   "type": "post",
+   "author": "Shobhitchugh",
+   "title": "Shobhit Chugh posted this",
+   "snippet": "Here's what I'd focus on instead: 1. Get clear on what AI product roles actually require. Most AI PMs aren't coding neural networks. They're building real",
+   "date": "2026-09-30",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [
+    "AI PM"
+   ],
+   "companies": [],
+   "relevant": true,
+   "summary": "Here's what I'd focus on instead: 1. Get clear on what AI product roles actually require. Most AI PMs aren't coding neural networks. They're building real",
+   "summary_source": "snippet"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/ai-monks-ai-product-management-coach-545469196_aimonks-productmanagers-productmanagement-activity-7511054966464335872-rRX7",
+   "type": "post",
+   "author": "Ai Monks Ai Product Management Coach",
+   "title": "AI Monks (AI Product Management Coach)'s Post",
+   "snippet": "The AI PM course by AI Monks If you want to get into AI product management, this is the one place that has it all. Here is what you get inside: Product",
+   "date": "2026-09-30",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [
+    "AI PM"
+   ],
+   "companies": [],
+   "relevant": true,
+   "summary": "The AI PM course by AI Monks If you want to get into AI product management, this is the one place that has it all. Here is what you get inside: Product",
+   "summary_source": "snippet"
+  },
+  {
+   "url": "https://www.linkedin.com/posts/alexrechevskiy_have-a-product-management-question-you-wish-activity-7511210911307857921-IuI-",
+   "type": "post",
+   "author": "Alexrechevskiy",
+   "title": "Alex Rechevskiy's Post",
+   "snippet": "Will AI replace product managers?! What should I actually learn about AI? ♀️ How do I deal with a difficult manager? Should I get this cool new",
+   "date": "2026-09-30",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [
+    "AI PM"
+   ],
+   "companies": [],
+   "relevant": true,
+   "summary": "Will AI replace product managers?! What should I actually learn about AI? ♀️ How do I deal with a difficult manager? Should I get this cool new",
+   "summary_source": "snippet"
   }
  ],
- "_hidden": []
+ "_hidden": [
+  {
+   "url": "https://www.linkedin.com/posts/akhil-yash_6-skills-that-make-an-ai-pm-activity-7511308612527411201-It49",
+   "type": "post",
+   "author": "Akhil Yash",
+   "title": "Akhil Yash Tiwari's Post - 6 Skills that Make an AI PM",
+   "snippet": "It comes down to 6 skills: Skill 1 | AI Fundamentals Skill 2 | Problem Framing Skill 3 | Data Sense Skill 4 | Evaluation & Quality Skill 5 | Designing for Doubt",
+   "date": "2026-10-01",
+   "date_source": "post",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [],
+   "companies": [],
+   "relevant": false
+  },
+  {
+   "url": "https://www.linkedin.com/pulse/career-transition-ai-pm-you-dont-need-start-over-neelanja-makhija-tljlf",
+   "type": "article",
+   "author": "",
+   "title": "CAREER TRANSITION TO AI PM: YOU DON'T NEED TO ...",
+   "snippet": "Take your strongest product project. Now ask: “Where could AI have changed the product decision?”.",
+   "date": "2026-10-03",
+   "date_source": "first_seen",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [],
+   "companies": [],
+   "relevant": false
+  },
+  {
+   "url": "https://www.linkedin.com/pulse/beyond-status-report-why-pmos-fail-age-ai-engineering-we9fc",
+   "type": "article",
+   "author": "",
+   "title": "Beyond the Status Report: Why PMOs Fail in the Age of AI ...",
+   "snippet": "5 days ago · To maintain rigorous oversight, manage risk, and optimize multi-product portfolios in the Age of AI, organizations must dismantle the traditional PMO and replace it with agile, decentralized, and",
+   "date": "2026-10-03",
+   "date_source": "first_seen",
+   "first_seen": "2026-10-03",
+   "regions": [
+    "Global"
+   ],
+   "topics": [
+    "AI PM"
+   ],
+   "tags": [],
+   "companies": [],
+   "relevant": false
+  }
+ ]
 }
