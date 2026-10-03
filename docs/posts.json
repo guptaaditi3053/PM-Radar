@@ -1,25 +1,25 @@
 {
- "updated": "2026-10-03T15:08:23+00:00",
+ "updated": "2026-10-03T15:37:42+00:00",
  "demo": false,
  "settings": {
-  "run_id": "2026-10-03T15:08:13+00:00",
-  "days": 7,
+  "run_id": "2026-10-03T15:37:37+00:00",
+  "days": 10,
   "regions": [
    "Global"
   ],
   "topics": [
-   "AI PM"
+   "Custom"
   ],
-  "query": "",
-  "searches_run": 3,
+  "query": "AI PM Case Study",
+  "searches_run": 1,
   "funnel": {
-   "results": 39,
-   "posts_found": 19,
-   "in_window": 19,
-   "relevant": 10
+   "results": 0,
+   "posts_found": 0,
+   "in_window": 0,
+   "relevant": 0
   },
   "ai_summaries": false,
-  "new_posts": 6
+  "new_posts": 0
  },
  "regions": [
   "Global"
