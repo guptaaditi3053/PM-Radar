@@ -22,7 +22,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -135,6 +135,44 @@ def clean(text):
     return re.sub(r"\s+", " ", text or "").strip()
 
 
+NOISE_PATTERNS = [
+    r"^\s*\d+\s*(?:minutes?|hours?|days?|weeks?|months?|years?)\s+ago\s*[·\-–|]\s*",
+    r"\bPublished\s+[A-Za-z]{3,9}\.?\s+\d{1,2},\s+\d{4}\b",
+    r"\s*\+\s*Follow\b",
+    r"\b\d[\d,\.]*\s*(?:reactions?|comments?|likes?)\b",
+    r"\bSee more\b|\bReport this post\b|\bLike\s+Comment\s+Share\b",
+]
+MONTHS = {m: i for i, m in enumerate(
+    ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
+
+
+def clean_snippet(text):
+    """Remove LinkedIn page furniture ('5 days ago ·', '+ Follow', reaction counts)."""
+    t = clean(text)
+    for pat in NOISE_PATTERNS:
+        t = re.sub(pat, " ", t, flags=re.I)
+    return re.sub(r"\s+", " ", t).strip(" ·|-–")
+
+
+def date_from_text(text, today):
+    """Fallback date: 'Published Sep 28, 2026' or 'N days ago' found in the snippet."""
+    m = re.search(r"Published\s+([A-Za-z]{3})[a-z]*\.?\s+(\d{1,2}),\s+(\d{4})", text)
+    if m:
+        mon = MONTHS.get(m.group(1).lower())
+        if mon:
+            try:
+                return date(int(m.group(3)), mon, int(m.group(2))).isoformat()
+            except ValueError:
+                pass
+    m = re.search(r"\b(\d+)\s*(minute|hour|day|week|month|year)s?\s+ago\b", text, re.I)
+    if m:
+        n = int(m.group(1))
+        days = {"minute": 0, "hour": 0, "day": n, "week": 7 * n,
+                "month": 30 * n, "year": 365 * n}[m.group(2).lower()]
+        return (today - timedelta(days=days)).isoformat()
+    return None
+
+
 # --------------------------------------------------------------------------- text heuristics
 
 def is_pm_relevant(text):
@@ -181,11 +219,11 @@ def time_range_for(days):
     return "year"
 
 
-def tavily_search(key, query, days, country, max_results):
+def tavily_search(key, query, days, country, max_results, depth="basic"):
     body = {
         "query": query,
         "topic": "general",
-        "search_depth": "basic",
+        "search_depth": depth if depth in ("basic", "advanced") else "basic",
         "max_results": max(1, min(int(max_results), 20)),
         "include_domains": ["linkedin.com"],
         "time_range": time_range_for(days),
@@ -310,7 +348,7 @@ def demo_posts():
             "summary": summary, "summary_source": "demo", "date": d(ago),
             "date_source": "post", "first_seen": d(ago), "regions": regions,
             "topics": tags, "tags": tags, "companies": companies, "relevant": True,
-            "demo": True,
+            "demo": True, "last_run": "demo",
         })
     return posts
 
@@ -423,15 +461,20 @@ def main():
         f"topics: {[t['tag'] for t in topics]}")
 
     jobs = [(r, t, q) for r in regions for t in topics for q in t["queries"]]
+    depth = str(cfg.get("search_depth", "basic")).lower()
+    run_id = datetime.now(UTC).isoformat(timespec="seconds")
     credits = 0
     new_urls = []
+    total_results = 0
+    seen_kind, too_old = set(), set()   # unique LinkedIn post/article URLs, and the ones outside the window
     for region, topic, q in jobs:
         if credits >= max_credits:
             log(f"Reached max_credits_per_run ({max_credits}); stopping search early.")
             break
         query = f"{q} {region.get('keywords', '')}".strip()
         try:
-            results = tavily_search(tavily_key, query, days, region.get("country", ""), max_results)
+            results = tavily_search(tavily_key, query, days, region.get("country", ""),
+                                    max_results, depth)
         except ApiError as e:
             if e.status in (401, 403):
                 log(f"ERROR: Tavily rejected the API key ({e.status}). Check the TAVILY_API_KEY secret.")
@@ -443,22 +486,31 @@ def main():
             continue
         credits += 1
         kept = 0
+        total_results += len(results)
         for r in results:
             url = normalize_url(r.get("url", ""))
             kind = kind_of(url)
             if not kind:
                 continue
-            pdate = date_from_url(url)
+            seen_kind.add(url)
+            raw_text = clean(f"{r.get('title', '')} {r.get('content', '')}")
+            pdate, dsource = date_from_url(url), "post"
+            if not pdate:
+                pdate, dsource = date_from_text(raw_text, today), "text"
             if pdate and pdate < cutoff:
+                too_old.add(url)
                 continue
             rec = posts.get(url)
+            if rec is not None and pdate and rec.get("date_source") == "first_seen":
+                rec["date"], rec["date_source"] = pdate, dsource
             if rec is None:
                 author, headline = parse_title(r.get("title", ""), url)
-                snippet = clean(r.get("content", ""))[:600]
+                snippet = clean_snippet(r.get("content", ""))[:600]
                 rec = {"url": url, "type": kind, "author": author,
-                       "title": short_summary(headline or snippet, 140), "snippet": snippet,
+                       "title": short_summary(clean_snippet(headline) or snippet, 140),
+                       "snippet": snippet,
                        "date": pdate or today.isoformat(),
-                       "date_source": "post" if pdate else "first_seen",
+                       "date_source": dsource if pdate else "first_seen",
                        "first_seen": today.isoformat(), "regions": [], "topics": [],
                        "tags": [], "companies": [], "relevant": None}
                 posts[url] = rec
@@ -467,6 +519,7 @@ def main():
                 rec["regions"].append(region["label"])
             if topic["tag"] not in rec["topics"]:
                 rec["topics"].append(topic["tag"])
+            rec["last_run"] = run_id
             kept += 1
         log(f"  [{region['label']}/{topic['tag']}] '{q}' -> {kept} LinkedIn results")
         time.sleep(0.6)
@@ -521,12 +574,20 @@ def main():
     keep_cutoff = (today - timedelta(days=keep_days)).isoformat()
     posts = {u: p for u, p in posts.items() if (p.get("date") or "9999") >= keep_cutoff}
 
-    meta = {"days": days, "regions": [r["label"] for r in regions],
-            "topics": [t["tag"] for t in topics], "searches_run": credits,
+    in_window = [u for u in seen_kind if u not in too_old]
+    funnel = {"results": total_results, "posts_found": len(seen_kind),
+              "in_window": len(in_window),
+              "relevant": len([u for u in in_window if posts.get(u, {}).get("relevant") is not False])}
+    meta = {"run_id": run_id, "days": days, "regions": [r["label"] for r in regions],
+            "topics": [t["tag"] for t in topics], "query": custom or "",
+            "searches_run": credits, "funnel": funnel,
+            "ai_summaries": bool(llm_results),
             "new_posts": len([u for u in dict.fromkeys(new_urls)
                               if posts.get(u, {}).get("relevant")])}
     write_output(posts, meta)
     shown = len([p for p in posts.values() if p.get("relevant") is not False])
+    log(f"Funnel: {funnel['results']} search results -> {funnel['posts_found']} LinkedIn posts/articles "
+        f"-> {funnel['in_window']} inside the {days}-day window -> {funnel['relevant']} about product management")
     log(f"Done. {meta['new_posts']} new relevant posts, {shown} in dashboard, "
         f"{credits} searches used this run.")
     return 0
